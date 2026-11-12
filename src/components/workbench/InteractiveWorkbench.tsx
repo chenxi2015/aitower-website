@@ -105,7 +105,7 @@ export default function InteractiveWorkbench({ lang }: Props) {
     : (zh ? '去 AI 味的写作.md' : 'writing-without-slop.md');
 
   return (
-    <div className="flex overflow-hidden rounded-2xl border border-border bg-background text-left shadow-xl shadow-zinc-950/5">
+    <div className="flex overflow-hidden rounded-t-2xl rounded-b-none border border-border border-b-none bg-background text-left shadow-xl shadow-zinc-950/5">
       {/* slim icon dock */}
       {module === 'studio' && <div className="hidden w-9 shrink-0 flex-col items-center gap-1 border-r border-border py-2 sm:flex">
         {dockIcons.map((Icon, i) => (
@@ -128,7 +128,6 @@ export default function InteractiveWorkbench({ lang }: Props) {
           </div>
           <LogoMark size={16} className="ml-2 rounded" />
           <span className="ml-1.5 text-[11px] font-bold tracking-tight">aitower</span>
-          <span className="ml-1 rounded-full border border-border bg-muted px-1.5 py-px text-[8px] font-medium text-muted-foreground">v0.1.9</span>
 
           {/* centered module seg-tab */}
           <div className="seg-tab-group absolute left-1/2 -translate-x-1/2">

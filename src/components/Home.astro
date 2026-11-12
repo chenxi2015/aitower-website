@@ -5,6 +5,7 @@ import Footer from './Footer.astro';
 import BentoCard from './BentoCard.astro';
 import InteractiveWorkbench from './workbench/InteractiveWorkbench';
 import DownloadButtons from './DownloadButtons';
+import FlyingLogoArrow from './FlyingLogoArrow.astro';
 import { t, type Lang } from '../data/i18n';
 import {
   NotebookPen, PenTool, Sparkles, Link2, ImageDown, Search,
@@ -95,8 +96,13 @@ const copy = lang === 'zh'
   <Navbar lang={lang} />
 
   <!-- ── Hero ── -->
-  <section class="dot-grid relative overflow-hidden border-b border-border">
-    <div class="mx-auto max-w-6xl px-6 pt-20 text-center md:pt-28">
+  <section class="dot-grid relative overflow-hidden border-b border-border bg-[#f7f6f2] dark:bg-transparent">
+    <div class="relative mx-auto max-w-6xl px-6 pt-20 text-center md:pt-28">
+      <!-- Decorative flying logo arrow pointing to top right (Label 3) -->
+      <div class="pointer-events-none absolute right-4 top-24 z-10 hidden md:block lg:right-10 xl:right-14">
+        <FlyingLogoArrow />
+      </div>
+
       <div class="animate-fade-up inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-muted-foreground shadow-2xs">
         <Sparkles size={13} className="text-amber-500" />
         {i.hero.badge}
@@ -115,9 +121,9 @@ const copy = lang === 'zh'
         <DownloadButtons client:load lang={lang} />
       </div>
 
-      <!-- Interactive workbench: a working miniature of the desktop app -->
-      <div class="animate-fade-up mx-auto mt-16 max-w-5xl" style="animation-delay: 340ms">
-        <InteractiveWorkbench client:only="react" lang={lang} />
+      <!-- Interactive workbench: a working miniature of the desktop app, rendered immediately on first paint -->
+      <div class="animate-fade-up mx-auto mt-16 max-w-5xl">
+        <InteractiveWorkbench client:load lang={lang} />
       </div>
     </div>
   </section>

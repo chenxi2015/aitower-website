@@ -1,0 +1,237 @@
+---
+// FlyingLogoArrow.astro
+// Unified SVG composition: perfectly anchored dashed flight trails and 3D logo arrows
+---
+
+<div class="flying-arrow-wrapper pointer-events-none select-none" aria-hidden="true">
+  <svg class="flight-canvas" viewBox="0 0 230 190" fill="none">
+    <defs>
+      <!-- Gradient for the main hero flight trail -->
+      <linearGradient id="main-trail-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="var(--color-primary)" stop-opacity="0" />
+        <stop offset="50%" stop-color="var(--color-primary)" stop-opacity="0.25" />
+        <stop offset="100%" stop-color="var(--color-primary)" stop-opacity="0.85" />
+      </linearGradient>
+
+      <!-- Faint gradient for distant background trails -->
+      <linearGradient id="distant-trail-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="var(--color-primary)" stop-opacity="0" />
+        <stop offset="100%" stop-color="var(--color-primary)" stop-opacity="0.25" />
+      </linearGradient>
+
+      <!-- Left Ribbon: Obsidian Charcoal to Deep Jet Black -->
+      <linearGradient id="fla-ribLeft" x1="540" y1="156" x2="208" y2="848" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2c2c32" />
+        <stop offset="30%" stop-color="#18181b" />
+        <stop offset="100%" stop-color="#09090b" />
+      </linearGradient>
+
+      <!-- Right Ribbon: Balanced slate-grey so right wing is clearly visible on white bg -->
+      <linearGradient id="fla-ribRight" x1="524" y1="220" x2="816" y2="836" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#4b4b54" />
+        <stop offset="40%" stop-color="#71717a" />
+        <stop offset="80%" stop-color="#94949e" />
+        <stop offset="100%" stop-color="#a1a1aa" />
+      </linearGradient>
+
+      <!-- Reusable aitower 3D arrow shape -->
+      <g id="aitower-arrow-shape" transform="translate(4, 0)">
+        <path
+          d="M 439.9 265.8
+             L 709.9 809.8
+             C 755.0 900.6, 891.1 833.0, 846.1 742.2
+             L 576.1 198.2
+             L 496.0 210.0
+             Z"
+          fill="url(#fla-ribRight)"
+        />
+        <path
+          d="M 439.9 198.2
+             L 169.9 742.2
+             C 124.9 833.0, 261.0 900.6, 306.1 809.8
+             L 576.1 265.8
+             C 621.1 175.0, 485.0 107.4, 439.9 198.2
+             Z"
+          fill="url(#fla-ribLeft)"
+        />
+      </g>
+    </defs>
+
+    <!-- ── 1. Upper-Left Distant Arrow Unit (Unified trail + arrow) ── -->
+    <g class="flight-group flight-group-upper">
+      <!-- Trail terminates exactly at arrow tail center (72, 44) with tangent 35deg -->
+      <path
+        d="M 32 88 C 44 78, 57.7 64.5, 72 44"
+        stroke="url(#distant-trail-grad)"
+        stroke-width="1.2"
+        stroke-dasharray="3 4"
+        stroke-linecap="round"
+        class="motion-trail-dash"
+      />
+      <!-- Arrow anchored directly at tail center (72, 44) -->
+      <g transform="translate(72, 44) rotate(35) translate(-9, -15)">
+        <svg width="18" height="18" viewBox="142 136 740 740" class="arrow-svg-distant">
+          <use href="#aitower-arrow-shape" />
+        </svg>
+      </g>
+    </g>
+
+    <!-- ── 2. Lower-Right Distant Arrow Unit (Unified trail + arrow) ── -->
+    <g class="flight-group flight-group-lower">
+      <!-- Trail terminates exactly at arrow tail center (138, 126) with tangent 35deg -->
+      <path
+        d="M 98 168 C 110 160, 123.7 146.5, 138 126"
+        stroke="url(#distant-trail-grad)"
+        stroke-width="1.2"
+        stroke-dasharray="3 4"
+        stroke-linecap="round"
+        class="motion-trail-dash"
+      />
+      <!-- Arrow anchored directly at tail center (138, 126) -->
+      <g transform="translate(138, 126) rotate(35) translate(-7, -12)">
+        <svg width="14" height="14" viewBox="142 136 740 740" class="arrow-svg-distant">
+          <use href="#aitower-arrow-shape" />
+        </svg>
+      </g>
+    </g>
+
+    <!-- ── 3. Foreground Lead Hero Arrow Unit (Unified trail + arrow) ── -->
+    <g class="flight-group flight-group-lead">
+      <!-- Trail terminates exactly at arrow tail center (170, 56) with tangent 35deg -->
+      <path
+        d="M 72 150 C 102 132, 144.2 92.9, 170 56"
+        stroke="url(#main-trail-grad)"
+        stroke-width="1.8"
+        stroke-dasharray="5 5"
+        stroke-linecap="round"
+        class="motion-trail-dash"
+      />
+
+      <!-- Propulsion particle dot along trail -->
+      <circle cx="118" cy="118" r="1.6" class="fill-primary/35 trail-particle" />
+
+      <!-- Lead arrow head anchored with 0-error precision at (170, 56) -->
+      <g transform="translate(170, 56)">
+        <!-- Aura glow centered with the arrow -->
+        <circle cx="0" cy="-14" r="22" class="lead-glow" />
+
+        <!-- Arrow graphic with base center at (0, 0) -->
+        <g transform="rotate(35) translate(-17, -29)">
+          <svg width="34" height="34" viewBox="142 136 740 740" class="arrow-svg-lead">
+            <use href="#aitower-arrow-shape" />
+          </svg>
+        </g>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .flying-arrow-wrapper {
+    position: relative;
+    width: 220px;
+    height: 185px;
+  }
+
+  .flight-canvas {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* Flowing dash effect along trails */
+  .motion-trail-dash {
+    animation: trail-flow 2.4s linear infinite;
+  }
+
+  @keyframes trail-flow {
+    to {
+      stroke-dashoffset: -20;
+    }
+  }
+
+  /* Dust particle pulse */
+  .trail-particle {
+    animation: particle-pulse 2.2s ease-in-out infinite;
+  }
+
+  @keyframes particle-pulse {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 0.9; transform: scale(1.3); }
+  }
+
+  /* ── Arrow Styling & Drop Shadows ── */
+  .arrow-svg-lead {
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.24));
+    transition: filter 0.2s ease;
+  }
+
+  :global(.dark) .arrow-svg-lead {
+    filter: drop-shadow(0 2px 12px rgba(255, 255, 255, 0.38)) brightness(1.25);
+  }
+
+  .lead-glow {
+    fill: url(#lead-aura);
+    fill: rgba(99, 102, 241, 0.15);
+    animation: aura-glow 3s ease-in-out infinite alternate;
+  }
+
+  :global(.dark) .lead-glow {
+    fill: rgba(165, 180, 252, 0.18);
+  }
+
+  .arrow-svg-distant {
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.12));
+    transition: filter 0.2s ease;
+  }
+
+  :global(.dark) .arrow-svg-distant {
+    filter: drop-shadow(0 1px 5px rgba(255, 255, 255, 0.22)) brightness(1.15);
+  }
+
+  /* ── Group Soaring Animations (trail & arrow stay 100% aligned during flight) ── */
+  .flight-group-lead {
+    animation: lead-flight 4.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .flight-group-upper {
+    opacity: 0.42;
+    filter: blur(0.3px);
+    animation: distant-flight-1 4.5s cubic-bezier(0.4, 0, 0.2, 1) 0.6s infinite;
+  }
+
+  .flight-group-lower {
+    opacity: 0.34;
+    filter: blur(0.35px);
+    animation: distant-flight-2 4.5s cubic-bezier(0.4, 0, 0.2, 1) 1.2s infinite;
+  }
+
+  @keyframes lead-flight {
+    0% { transform: translate(0, 0); }
+    35% { transform: translate(8px, -8px); }
+    50% { transform: translate(11px, -11px) scale(1.02); }
+    75% { transform: translate(5px, -5px); }
+    100% { transform: translate(0, 0); }
+  }
+
+  @keyframes distant-flight-1 {
+    0% { transform: translate(0, 0); }
+    35% { transform: translate(5px, -5px); }
+    50% { transform: translate(8px, -8px); }
+    75% { transform: translate(4px, -4px); }
+    100% { transform: translate(0, 0); }
+  }
+
+  @keyframes distant-flight-2 {
+    0% { transform: translate(0, 0); }
+    35% { transform: translate(5px, -5px); }
+    50% { transform: translate(7px, -7px); }
+    75% { transform: translate(3px, -3px); }
+    100% { transform: translate(0, 0); }
+  }
+
+  @keyframes aura-glow {
+    0% { opacity: 0.3; transform: scale(0.9); }
+    100% { opacity: 0.8; transform: scale(1.15); }
+  }
+</style>

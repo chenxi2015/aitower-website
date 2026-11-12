@@ -1,0 +1,40 @@
+<svg width="1024" height="1024" viewBox="142 136 740 740" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Left Continuous 3D Ribbon (Foreground): Deep Obsidian Black -> Charcoal -->
+    <linearGradient id="ribLeft" x1="540" y1="156" x2="208" y2="848" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#323238" />
+      <stop offset="22%" stop-color="#1F1F24" />
+      <stop offset="58%" stop-color="#121215" />
+      <stop offset="100%" stop-color="#070709" />
+    </linearGradient>
+
+    <!-- Right Continuous 3D Ribbon (Background Fold): Cool Medium Grey -> Silver -> Light Grey -->
+    <linearGradient id="ribRight" x1="524" y1="220" x2="816" y2="836" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5E5E68" />
+      <stop offset="30%" stop-color="#868692" />
+      <stop offset="68%" stop-color="#AEAEBA" />
+      <stop offset="100%" stop-color="#D0D0DC" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(4, 0)">
+    <path
+      d="M 439.9 265.8
+         L 709.9 809.8
+         C 755.0 900.6, 891.1 833.0, 846.1 742.2
+         L 576.1 198.2
+         L 496.0 210.0
+         Z"
+      fill="url(#ribRight)"
+    />
+    <path
+      d="M 439.9 198.2
+         L 169.9 742.2
+         C 124.9 833.0, 261.0 900.6, 306.1 809.8
+         L 576.1 265.8
+         C 621.1 175.0, 485.0 107.4, 439.9 198.2
+         Z"
+      fill="url(#ribLeft)"
+    />
+  </g>
+</svg>
