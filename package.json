@@ -10,8 +10,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "cf:dev": "astro build && wrangler pages dev dist",
-    "deploy": "astro build && wrangler pages deploy dist"
+    "cf:dev": "astro build && wrangler dev",
+    "deploy": "astro build && wrangler deploy",
+    "deploy:dry-run": "astro build && wrangler deploy --dry-run"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.0",
