@@ -107,20 +107,16 @@ export default function InteractiveWorkbench({ lang }: Props) {
   return (
     <div className="flex overflow-hidden rounded-2xl border border-border bg-background text-left shadow-xl shadow-zinc-950/5">
       {/* slim icon dock */}
-      <div className="hidden w-9 shrink-0 flex-col items-center gap-1 border-r border-border py-2 sm:flex">
+      {module === 'studio' && <div className="hidden w-9 shrink-0 flex-col items-center gap-1 border-r border-border py-2 sm:flex">
         {dockIcons.map((Icon, i) => (
           <div
             key={i}
-            className={`flex h-7 w-7 items-center justify-center rounded-lg ${
-              (module === 'notes' ? i === 0 : i === 1)
-                ? 'bg-muted text-foreground'
-                : 'text-muted-foreground/70'
-            }`}
+            className={`flex h-7 w-7 items-center justify-center rounded-lg ${'text-muted-foreground/70'}`}
           >
             <Icon size={13} />
           </div>
         ))}
-      </div>
+      </div>}
 
       <div className="min-w-0 flex-1">
         {/* title bar */}
@@ -147,10 +143,6 @@ export default function InteractiveWorkbench({ lang }: Props) {
           </div>
 
           <div className="ml-auto flex items-center gap-2.5 text-muted-foreground">
-            <span className="inline-flex items-center gap-1 rounded-full bg-zinc-900 px-2 py-0.5 text-[8px] font-bold text-amber-300 dark:bg-zinc-100 dark:text-amber-600">
-              <Crown size={9} />
-              PRO VIP
-            </span>
             <Sun size={11} className="hidden sm:block" />
             <CircleHelp size={11} className="hidden sm:block" />
             <SlidersHorizontal size={11} className="hidden sm:block" />
@@ -177,25 +169,6 @@ export default function InteractiveWorkbench({ lang }: Props) {
               onSend={handleCustomSend}
             />
           </div>
-        </div>
-
-        {/* bottom: presets + history */}
-        <div className="flex flex-wrap items-center gap-2 border-t border-border bg-muted/30 px-3 py-2.5">
-          <History size={11} className="text-muted-foreground/60" />
-          <span className="mr-1 hidden text-[10px] font-medium text-muted-foreground sm:inline">
-            {zh ? '快捷指令' : 'Quick actions'}
-          </span>
-          {presets[lang].map((p) => (
-            <button
-              key={p.id}
-              onClick={() => runPreset(p)}
-              disabled={running}
-              className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-2.5 py-1 text-[10px] font-medium text-foreground shadow-2xs transition-all hover:-translate-y-px hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <Sparkles size={9} className="text-violet-500" />
-              {p.label}
-            </button>
-          ))}
         </div>
       </div>
     </div>
