@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from './Navbar.astro';
+import Footer from './Footer.astro';
+import BentoCard from './BentoCard.astro';
+import DownloadButtons from './DownloadButtons';
+import { t, RELEASES, type Lang } from '../data/i18n';
+import { Apple, AppWindow, Terminal } from 'lucide-react';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const i = t[lang].downloadPage;
+
+const platforms = lang === 'zh'
+  ? [
+      { icon: Apple, name: 'macOS', desc: 'Apple Silicon / Intel，.dmg 安装包', note: i.recommended },
+      { icon: AppWindow, name: 'Windows', desc: 'x64，.exe 安装程序', note: '' },
+      { icon: Terminal, name: 'Linux', desc: 'x64，AppImage / deb', note: '' },
+    ]
+  : [
+      { icon: Apple, name: 'macOS', desc: 'Apple Silicon / Intel, .dmg installer', note: i.recommended },
+      { icon: AppWindow, name: 'Windows', desc: 'x64, .exe installer', note: '' },
+      { icon: Terminal, name: 'Linux', desc: 'x64, AppImage / deb', note: '' },
+    ];
+---
+
+<BaseLayout lang={lang} title={`${i.title} · aitower`}>
+  <Navbar lang={lang} />
+
+  <section class="dot-grid mx-auto max-w-6xl px-6 pt-20 pb-14 text-center">
+    <h1 class="animate-fade-up text-4xl font-bold tracking-tight md:text-5xl">{i.title}</h1>
+    <p class="animate-fade-up mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground" style="animation-delay: 100ms">
+      {i.sub}
+    </p>
+    <div class="animate-fade-up mt-8 flex justify-center" style="animation-delay: 200ms">
+      <DownloadButtons client:load lang={lang} />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 pb-24">
+    <div class="grid gap-4 md:grid-cols-3">
+      {platforms.map((p, idx) => (
+        <BentoCard class="text-center" delay={idx * 80}>
+          <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-muted">
+            <p.icon size={22} />
+          </div>
+          <div class="flex items-center justify-center gap-2">
+            <h3 class="font-semibold">{p.name}</h3>
+            {p.note && (
+              <span class="rounded-full bg-note-green/70 px-2 py-0.5 text-[10px] font-medium text-green-800 dark:bg-green-900/40 dark:text-green-300">{p.note}</span>
+            )}
+          </div>
+          <p class="mt-1.5 text-xs leading-relaxed text-muted-foreground">{p.desc}</p>
+        </BentoCard>
+      ))}
+    </div>
+
+    <div class="reveal mt-10 rounded-xl border border-border bg-muted/40 p-5 text-center text-sm text-muted-foreground">
+      {i.bridgeNoteA}
+      <a href={RELEASES} target="_blank" rel="noreferrer" class="mx-1 font-medium text-foreground underline decoration-zinc-300 underline-offset-4 hover:decoration-foreground">aitower-releases</a>
+      {i.bridgeNoteB} <code class="rounded bg-muted px-1.5 py-0.5 text-xs">checksums.txt</code> {i.bridgeNoteC}
+    </div>
+  </section>
+
+  <Footer lang={lang} />
+</BaseLayout>

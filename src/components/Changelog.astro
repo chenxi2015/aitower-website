@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from './Navbar.astro';
+import Footer from './Footer.astro';
+import { t, type Lang } from '../data/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const i = t[lang].changelogPage;
+
+const releases = lang === 'zh'
+  ? [
+      {
+        version: 'v0.1.9',
+        date: '2026',
+        current: true,
+        items: [
+          '多会话并发运行时：后台生成自由切换，打字流严格隔离不窜屏',
+          '创作台一体化素材抽屉：官方手绘素材包 + 用户自有收藏',
+          '客户端自更新：Headless 无窗口更新，进度事件直达前端',
+          '新手引导引擎：双主题轮播弹窗 + driver.js 实景导览',
+        ],
+      },
+    ]
+  : [
+      {
+        version: 'v0.1.9',
+        date: '2026',
+        current: true,
+        items: [
+          'Concurrent multi-session runtime: switch freely while generating, streams never leak across sessions',
+          'Unified studio material drawer: official hand-drawn packs + your own collections',
+          'Client self-updater: headless updates with progress events pushed to the UI',
+          'Onboarding guide engine: dual-theme carousel modal + driver.js walkthrough',
+        ],
+      },
+    ];
+---
+
+<BaseLayout lang={lang} title={`${i.title} · aitower`}>
+  <Navbar lang={lang} />
+
+  <section class="mx-auto max-w-3xl px-6 pt-20 pb-24">
+    <h1 class="animate-fade-up text-4xl font-bold tracking-tight">{i.title}</h1>
+    <p class="animate-fade-up mt-3 text-sm text-muted-foreground" style="animation-delay: 80ms">
+      {i.sub}
+    </p>
+
+    <div class="mt-12 space-y-10">
+      {releases.map((r) => (
+        <article class="reveal relative border-l-2 border-border pl-8">
+          <span class="absolute top-1 -left-[7px] h-3 w-3 rounded-full border-2 border-background bg-foreground"></span>
+          <div class="flex flex-wrap items-center gap-3">
+            <h2 class="text-xl font-bold tracking-tight">{r.version}</h2>
+            {r.current && (
+              <span class="rounded-full bg-note-green/70 px-2 py-0.5 text-[10px] font-medium text-green-800 dark:bg-green-900/40 dark:text-green-300">{i.current}</span>
+            )}
+            <time class="text-xs text-muted-foreground">{r.date}</time>
+          </div>
+          <ul class="mt-4 space-y-2.5">
+            {r.items.map((item) => (
+              <li class="flex items-start gap-2.5 text-sm leading-relaxed text-muted-foreground">
+                <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-400"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <p class="mt-16 rounded-xl border border-border bg-muted/40 p-5 text-center text-xs text-muted-foreground">
+      {i.historyA}
+      <a href="https://github.com/chenxi2015/aitower-releases/releases" target="_blank" rel="noreferrer" class="mx-1 font-medium text-foreground underline decoration-zinc-300 underline-offset-4 hover:decoration-foreground">GitHub Releases</a>
+    </p>
+  </section>
+
+  <Footer lang={lang} />
+</BaseLayout>

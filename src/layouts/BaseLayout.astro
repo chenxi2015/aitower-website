@@ -1,19 +1,22 @@
 ---
 import '../styles/global.css';
+import { t, type Lang } from '../data/i18n';
 
 interface Props {
+  lang?: Lang;
   title?: string;
   description?: string;
 }
 
 const {
-  title = 'aitower — 基于 Obsidian 的 AI 创作与配图工作台',
-  description = '去 AI 味的思想脚手架：读取你的 Obsidian 笔记，AI 协助发散与扩写，创作台手绘风配图一键插入文章。',
+  lang = 'zh',
+  title = t[lang].meta.title,
+  description = t[lang].meta.desc,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={lang === 'zh' ? 'zh-CN' : 'en'}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

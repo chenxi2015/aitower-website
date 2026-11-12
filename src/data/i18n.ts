@@ -26,7 +26,7 @@ export const t = {
       titleHighlight: '思想脚手架',
       titleB: '手绘风配图与架构',
       sub: 'aitower 读取你 Obsidian 里沉睡的笔记碎片，AI 帮你发散、推敲、扩写成有温度的深度长文；创作台手绘图表，一键插入文章光标处。',
-      caption: '创作台 · 三栏工作台实景（示意动效）',
+      caption: '网页里的可交互微缩工作台 · 点下方预设指令，看 AI 如何在画板与文章之间流转',
     },
     features: {
       kicker: '两大业务板块',
@@ -89,7 +89,7 @@ export const t = {
       titleHighlight: 'without the AI slop',
       titleB: 'Hand-drawn diagrams & architecture',
       sub: 'aitower wakes up the notes sleeping in your Obsidian vault. AI helps you brainstorm, argue and expand them into deep long-form writing; the studio board draws hand-crafted diagrams that drop straight into your draft.',
-      caption: 'Studio · the real three-pane workbench (animated mock)',
+      caption: 'An interactive miniature in your browser · run a preset below and watch AI flow between board and article',
     },
     features: {
       kicker: 'Two core modules',
