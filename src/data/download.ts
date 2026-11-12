@@ -129,21 +129,26 @@ export function checkIsMobile(): boolean {
 }
 
 /**
- * Trigger file download directly without navigating away
+ * Trigger file download directly by simulating an invisible anchor tag click
+ * without opening new browser tabs or navigating away
  */
 export function triggerDirectDownload(url: string, filename?: string): void {
   if (typeof document === 'undefined') return;
 
   const anchor = document.createElement('a');
+  anchor.style.display = 'none';
   anchor.href = url;
   if (filename) {
     anchor.setAttribute('download', filename);
+    anchor.download = filename;
   }
-  anchor.setAttribute('target', '_blank');
-  anchor.setAttribute('rel', 'noopener noreferrer');
   document.body.appendChild(anchor);
   anchor.click();
-  document.body.removeChild(anchor);
+  setTimeout(() => {
+    if (anchor.parentNode) {
+      anchor.parentNode.removeChild(anchor);
+    }
+  }, 100);
 }
 
 /**

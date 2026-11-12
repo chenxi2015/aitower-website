@@ -5,6 +5,7 @@ import Footer from './Footer.astro';
 import BentoCard from './BentoCard.astro';
 import InteractiveWorkbench from './workbench/InteractiveWorkbench';
 import DownloadButtons from './DownloadButtons';
+import HeroRotatingKeyword from './HeroRotatingKeyword';
 import FlyingLogoArrow from './FlyingLogoArrow.astro';
 import { t, type Lang } from '../data/i18n';
 import {
@@ -108,9 +109,9 @@ const copy = lang === 'zh'
         {i.hero.badge}
       </div>
 
-      <h1 class="animate-fade-up mx-auto mt-7 max-w-3xl text-4xl leading-[1.15] font-bold tracking-tight md:text-6xl" style="animation-delay: 80ms">
-        {i.hero.titleA}{' '}<span class="marker-underline">{i.hero.titleHighlight}</span><br />
-        {i.hero.titleB}
+      <h1 class="animate-fade-up mx-auto mt-7 max-w-5xl text-3xl sm:text-5xl md:text-6xl leading-[1.18] font-bold tracking-tight" style="animation-delay: 80ms">
+        <span class="inline-block">{i.hero.titleA}{' '}<HeroRotatingKeyword client:load words={i.hero.titleHighlights || [i.hero.titleHighlight]} /></span><br />
+        <span class="inline-block">{i.hero.titleB}</span>
       </h1>
 
       <p class="animate-fade-up mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg" style="animation-delay: 160ms">

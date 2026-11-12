@@ -54,7 +54,7 @@ export default function AiPanel({ lang, messages, running, opsDone, totalDuratio
             <div>
               <p className="text-[12px] font-semibold">{zh ? 'aitower 创作伙伴' : 'aitower creative partner'}</p>
               <p className="mt-1 text-[9px] leading-relaxed text-muted-foreground">
-                {zh ? '去 AI 味的思想脚手架 · 手绘风配图与架构' : 'A thinking scaffold · hand-drawn figures'}
+                {zh ? '整理思想 · 总结资料 · 生成文章 · 手绘画图' : 'Organize thoughts · Synthesize docs · Write articles · Hand-drawn diagrams'}
               </p>
             </div>
             <div className="mt-2 flex w-full flex-col gap-1.5">

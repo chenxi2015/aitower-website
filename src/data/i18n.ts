@@ -11,7 +11,7 @@ export const t = {
   zh: {
     meta: {
       title: 'aitower — 基于 Obsidian 的 AI 创作与配图工作台',
-      desc: '去 AI 味的思想脚手架：读取你的 Obsidian 笔记，AI 协助发散与扩写，创作台手绘风配图一键插入文章。',
+      desc: '深度结合 Obsidian、Excalidraw、Canvas 与 Markdown：用 AI 整理思想、总结资料、生成文章与手绘画图。',
     },
     nav: {
       features: '功能',
@@ -22,10 +22,11 @@ export const t = {
     },
     hero: {
       badge: '基于 Obsidian 本地生态 · 本地优先 · 不破坏原文件',
-      titleA: '去 AI 味的',
-      titleHighlight: '思想脚手架',
-      titleB: '手绘风配图与架构',
-      sub: 'aitower 读取你 Obsidian 里沉睡的笔记碎片，AI 帮你发散、推敲、扩写成有温度的深度长文；创作台手绘图表，一键插入文章光标处。',
+      titleA: '深度结合',
+      titleHighlight: 'Obsidian',
+      titleHighlights: ['Obsidian', 'Excalidraw', 'Canvas', 'Markdown', '工具技能'],
+      titleB: '整理思想、写作与手绘画图',
+      sub: '连接本地笔记与资料碎片，AI 助你快速总结资料、理清思路并生成完整文章；创作台内置手绘画板，架构图与流程图随手绘制、一键直插文章光标处。',
       caption: '网页里的可交互微缩工作台 · 点下方预设指令，看 AI 如何在画板与文章之间流转',
     },
     features: {
@@ -43,16 +44,16 @@ export const t = {
     },
     philosophy: {
       kicker: '为什么「半手搓」',
-      titleA: 'AI 不做流水线甩手掌柜，',
-      titleHighlight: '而是对话式的思想脚手架。',
-      desc: '在 AI 垃圾与塑料感假图泛滥的时代，带有作者真实思考轨迹与审美品味的「半手搓」内容，才是最高阶的资产。文章由你把控打磨，配图是逻辑的直接外化。',
+      titleA: 'AI 不做全自动生成的甩手掌柜，',
+      titleHighlight: '而是协助你深度思考与创作的助手。',
+      desc: '在泛滥的千篇一律内容时代，带有作者真实思考轨迹与审美品味的内容，才是最高阶的资产。文章由你把控打磨，配图是逻辑的直接外化。',
     },
     cta: {
       title: '开始你的第一篇深度长文',
       desc: '免费下载，支持 macOS / Windows / Linux。连接你的 Obsidian Vault，即刻开写。',
     },
     footer: {
-      tagline: '去 AI 味，半手搓',
+      tagline: '整理思想 · 手绘成图',
       releases: '发布仓库',
       changelog: '更新日志',
     },
@@ -74,7 +75,7 @@ export const t = {
   en: {
     meta: {
       title: 'aitower — AI writing & illustration workbench for Obsidian',
-      desc: 'A thinking scaffold without the AI slop: aitower reads your Obsidian notes, helps you brainstorm and expand, and drops hand-drawn diagrams into your article with one click.',
+      desc: 'Seamlessly connecting Obsidian, Excalidraw, Canvas & Markdown: Organize thoughts, summarize materials, draft articles, and draw diagrams with AI.',
     },
     nav: {
       features: 'Features',
@@ -85,10 +86,11 @@ export const t = {
     },
     hero: {
       badge: 'Built on your local Obsidian vault · Local-first · Your files stay yours',
-      titleA: 'A thinking scaffold',
-      titleHighlight: 'without the AI slop',
-      titleB: 'Hand-drawn diagrams & architecture',
-      sub: 'aitower wakes up the notes sleeping in your Obsidian vault. AI helps you brainstorm, argue and expand them into deep long-form writing; the studio board draws hand-crafted diagrams that drop straight into your draft.',
+      titleA: 'Connecting',
+      titleHighlight: 'Obsidian',
+      titleHighlights: ['Obsidian', 'Excalidraw', 'Canvas', 'Markdown', 'Tools & Skills'],
+      titleB: 'Think, write, and draw diagrams',
+      sub: 'Connect your local notes and docs. AI helps summarize materials and draft structured articles, while the studio board turns ideas into hand-drawn diagrams with one-click insertion.',
       caption: 'An interactive miniature in your browser · run a preset below and watch AI flow between board and article',
     },
     features: {
@@ -106,16 +108,16 @@ export const t = {
     },
     philosophy: {
       kicker: 'Why "human-crafted hybrid"',
-      titleA: 'AI is not an assembly-line ghostwriter,',
-      titleHighlight: 'but a conversational thinking scaffold.',
-      desc: 'In an era flooded with AI slop and plastic-looking fake imagery, content carrying the author\'s real thinking and taste is the highest-order asset. You keep the pen; the diagram is your logic made visible.',
+      titleA: 'AI is not an assembly-line replacement,',
+      titleHighlight: 'but an assistant to think and create with.',
+      desc: 'In an era flooded with generic AI content and plastic imagery, writing carrying the author\'s real thinking and taste is the highest-order asset. You steer the writing; the diagram makes your logic visible.',
     },
     cta: {
       title: 'Start your first deep long-form piece',
       desc: 'Free download for macOS / Windows / Linux. Point it at your Obsidian vault and write.',
     },
     footer: {
-      tagline: 'No AI slop. Human-crafted hybrid.',
+      tagline: 'Organize thoughts · Draw diagrams',
       releases: 'Releases repo',
       changelog: 'Changelog',
     },
