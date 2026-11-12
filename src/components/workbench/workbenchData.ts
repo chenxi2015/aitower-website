@@ -23,6 +23,7 @@ export interface BoardItem {
 export interface OperationStep {
   type: 'tool' | 'search' | 'read';
   label: string;
+  target?: string;
   duration: string;
 }
 
@@ -42,50 +43,64 @@ export interface PresetAction {
 export const noteTree: Record<Lang, NoteFolder[]> = {
   zh: [
     {
-      id: 'research',
-      name: '研究调研',
+      id: 'reports',
+      name: '分析报告',
       notes: [
-        { id: 'n1', title: '重试风暴与幂等设计' },
-        { id: 'n2', title: 'RAG 评估清单' },
-        { id: 'n3', title: '论文笔记 · RETRO' },
+        { id: 'n1', title: '重试风暴与幂等设计.md' },
+        { id: 'n2', title: 'RAG 评估清单.md' },
       ],
     },
     {
-      id: 'essays',
-      name: '专栏草稿',
+      id: 'learn',
+      name: '学习',
       notes: [
-        { id: 'n4', title: '去 AI 味的写作', tag: '进行中' },
-        { id: 'n5', title: '我的 2026 工具箱' },
+        { id: 'n3', title: '论文笔记 · RETRO.md' },
+        { id: 'n4', title: '去 AI 味的写作.md', tag: '进行中' },
       ],
     },
     {
-      id: 'assets',
-      name: '资产图片',
-      notes: [{ id: 'n6', title: '架构演进图.excalidraw' }],
+      id: 'media',
+      name: '自媒体',
+      notes: [
+        { id: 'n5', title: '我的 2026 工具箱.md' },
+        { id: 'n6', title: '黄金ETF 分析画布.canvas' },
+      ],
+    },
+    {
+      id: 'drawings',
+      name: 'drawings',
+      notes: [{ id: 'n7', title: '架构演进图.excalidraw' }],
     },
   ],
   en: [
     {
-      id: 'research',
-      name: 'Research',
+      id: 'reports',
+      name: 'Reports',
       notes: [
-        { id: 'n1', title: 'Retry storms & idempotency' },
-        { id: 'n2', title: 'RAG evaluation checklist' },
-        { id: 'n3', title: 'Paper notes · RETRO' },
+        { id: 'n1', title: 'retry-storms.md' },
+        { id: 'n2', title: 'rag-checklist.md' },
       ],
     },
     {
-      id: 'essays',
-      name: 'Column drafts',
+      id: 'learn',
+      name: 'Learning',
       notes: [
-        { id: 'n4', title: 'Writing without AI slop', tag: 'drafting' },
-        { id: 'n5', title: 'My 2026 toolbox' },
+        { id: 'n3', title: 'paper · RETRO.md' },
+        { id: 'n4', title: 'writing-without-slop.md', tag: 'drafting' },
       ],
     },
     {
-      id: 'assets',
-      name: 'Assets',
-      notes: [{ id: 'n6', title: 'architecture-evolution.excalidraw' }],
+      id: 'media',
+      name: 'Creator',
+      notes: [
+        { id: 'n5', title: 'my-2026-toolbox.md' },
+        { id: 'n6', title: 'gold-etf-analysis.canvas' },
+      ],
+    },
+    {
+      id: 'drawings',
+      name: 'drawings',
+      notes: [{ id: 'n7', title: 'architecture.excalidraw' }],
     },
   ],
 };
@@ -124,36 +139,37 @@ export const presets: Record<Lang, PresetAction[]> = {
   zh: [
     {
       id: 'illustrate',
-      label: '为本段配图',
-      prompt: '为「重试风暴与幂等设计」这一节生成一张手绘风流程图',
+      label: '手绘架构图',
+      prompt: '手绘风格系统架构图',
       module: 'studio',
       operations: [
-        { type: 'read', label: 'read_vault_file(重试风暴与幂等设计.md)', duration: '0.8s' },
-        { type: 'tool', label: 'draft_studio_board(type=flowchart)', duration: '2.4s' },
+        { type: 'read', label: '读取了笔记', target: '重试风暴与幂等设计', duration: '58ms' },
+        { type: 'tool', label: '调用了工具', target: 'draft_studio_board', duration: '2.4s' },
+        { type: 'tool', label: '调用了工具', target: 'layout_elements', duration: '1.1s' },
       ],
-      reply: '已读取该节的论证结构，在画板上起草了一张「请求 → 重试 → 幂等网关」的手绘流程图。你可以直接在画布上微调配色和文案，满意后点「插入文章」。',
+      reply: '排版已完成。在画板上起草了「请求 → 重试 → 幂等网关」的手绘流程：顶行对齐、回环箭头不再戳出画框下缘、三张便签做了垂直居中。你可以直接在画布上微调配色和文案。',
       effect: 'add_flow_nodes',
     },
     {
       id: 'brainstorm',
       label: '灵感发散',
-      prompt: '基于我最近的笔记，发散三个反直觉的写作角度',
+      prompt: '激活笔记灵感与双链重组',
       module: 'notes',
       operations: [
-        { type: 'search', label: 'search_notes(近 30 天)', duration: '1.6s' },
-        { type: 'read', label: '穿透 [[双链]] 网络交叉归纳', duration: '1.9s' },
+        { type: 'search', label: '搜索了笔记', target: '「学习」「自媒体」', duration: '678ms' },
+        { type: 'read', label: '读取了笔记', target: 'Original Books Rea…', duration: '58ms' },
       ],
-      reply: '从「重试风暴」和「去 AI 味的写作」两条线索交叉出发，建议你试试：1）把「幂等」翻译成内容创作的「可复用论证」；2）写一篇「我的反 AI 插图宣言」；3）复盘一次失败的重构作为案例开篇。',
+      reply: '写作不是最终产出，而是智力工作的基础动作。从「重试风暴」和「去 AI 味的写作」交叉出发：1）把「幂等」翻译成内容的「可复用论证」；2）写一篇「反 AI 插图宣言」；3）用一次失败重构做案例开篇。',
       effect: 'highlight_note',
     },
     {
       id: 'insert',
       label: '插入文章',
-      prompt: '把当前画板导出并插入到文章光标处',
+      prompt: '把画板导出并插入到文章光标处',
       module: 'notes',
       operations: [
-        { type: 'tool', label: 'export_board(format=png, scale=2x)', duration: '0.9s' },
-        { type: 'tool', label: 'insert_at_cursor(![[…]])', duration: '0.2s' },
+        { type: 'tool', label: '调用了工具', target: 'export_board(png, 2x)', duration: '0.9s' },
+        { type: 'tool', label: '调用了工具', target: 'insert_at_cursor', duration: '0.2s' },
       ],
       reply: '已导出高清 PNG 到 Obsidian 资产目录，并在光标处打入引用。全程 1 秒，无需跳出。',
       effect: 'insert_image',
@@ -162,36 +178,37 @@ export const presets: Record<Lang, PresetAction[]> = {
   en: [
     {
       id: 'illustrate',
-      label: 'Illustrate this section',
-      prompt: 'Draft a hand-drawn flowchart for the "retry storms" section',
+      label: 'Hand-drawn diagram',
+      prompt: 'Sketch a hand-drawn system architecture',
       module: 'studio',
       operations: [
-        { type: 'read', label: 'read_vault_file(retry-storms.md)', duration: '0.8s' },
-        { type: 'tool', label: 'draft_studio_board(type=flowchart)', duration: '2.4s' },
+        { type: 'read', label: 'Read note', target: 'retry-storms', duration: '58ms' },
+        { type: 'tool', label: 'Called', target: 'draft_studio_board', duration: '2.4s' },
+        { type: 'tool', label: 'Called', target: 'layout_elements', duration: '1.1s' },
       ],
-      reply: 'I read the argument structure of that section and drafted a hand-drawn "request → retry → idempotent gateway" flow on the board. Tweak colors and copy right on the canvas, then hit "insert into article".',
+      reply: 'Layout done. Drafted a hand-drawn "request → retry → idempotent gateway" flow on the board: top edges aligned, the loop-back arrow no longer pokes past the frame, sticky notes vertically centered. Tweak colors and copy right on the canvas.',
       effect: 'add_flow_nodes',
     },
     {
       id: 'brainstorm',
       label: 'Brainstorm angles',
-      prompt: 'Brainstorm three counter-intuitive angles from my recent notes',
+      prompt: 'Spark ideas from my notes & backlinks',
       module: 'notes',
       operations: [
-        { type: 'search', label: 'search_notes(last 30 days)', duration: '1.6s' },
-        { type: 'read', label: 'cross-correlate the [[backlink]] graph', duration: '1.9s' },
+        { type: 'search', label: 'Searched notes', target: '"Learning" "Creator"', duration: '678ms' },
+        { type: 'read', label: 'Read note', target: 'Original Books Rea…', duration: '58ms' },
       ],
-      reply: 'Crossing "retry storms" with "writing without AI slop", try: 1) translate idempotency into reusable arguments for content; 2) an anti-AI-illustration manifesto; 3) open with a failed refactoring post-mortem.',
+      reply: 'Writing is not the final output — it is the base act of intellectual work. Crossing "retry storms" with "writing without slop": 1) idempotency as reusable arguments; 2) an anti-AI-illustration manifesto; 3) open with a failed refactoring post-mortem.',
       effect: 'highlight_note',
     },
     {
       id: 'insert',
       label: 'Insert into article',
-      prompt: 'Export the current board and insert at cursor',
+      prompt: 'Export the board and insert at cursor',
       module: 'notes',
       operations: [
-        { type: 'tool', label: 'export_board(format=png, scale=2x)', duration: '0.9s' },
-        { type: 'tool', label: 'insert_at_cursor(![[…]])', duration: '0.2s' },
+        { type: 'tool', label: 'Called', target: 'export_board(png, 2x)', duration: '0.9s' },
+        { type: 'tool', label: 'Called', target: 'insert_at_cursor', duration: '0.2s' },
       ],
       reply: 'Exported a crisp PNG into your vault assets folder and stamped the Markdown reference at the cursor. One second, no app-switching.',
       effect: 'insert_image',
