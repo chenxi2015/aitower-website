@@ -110,7 +110,7 @@ const copy = lang === 'zh'
       </div>
 
       <h1 class="animate-fade-up mx-auto mt-7 max-w-5xl text-3xl sm:text-5xl md:text-6xl leading-[1.18] font-bold tracking-tight" style="animation-delay: 80ms">
-        <span class="inline-block">{i.hero.titleA}{' '}<HeroRotatingKeyword client:load words={i.hero.titleHighlights || [i.hero.titleHighlight]} /></span><br />
+        <span class="inline-block">{i.hero.titleA}{' '}<HeroRotatingKeyword client:load words={[...(i.hero.titleHighlights || [i.hero.titleHighlight])]} /></span><br />
         <span class="inline-block">{i.hero.titleB}</span>
       </h1>
 
@@ -118,12 +118,12 @@ const copy = lang === 'zh'
         {i.hero.sub}
       </p>
 
-      <div class="animate-fade-up mt-9 flex justify-center" style="animation-delay: 240ms">
+      <div class="animate-fade-up relative z-30 mt-9 flex justify-center" style="animation-delay: 240ms">
         <DownloadButtons client:load lang={lang} />
       </div>
 
       <!-- Interactive workbench: a working miniature of the desktop app, rendered immediately on first paint -->
-      <div class="animate-fade-up mx-auto mt-16 max-w-5xl">
+      <div class="animate-fade-up relative z-10 mx-auto mt-16 max-w-5xl">
         <InteractiveWorkbench client:load lang={lang} />
       </div>
     </div>
@@ -275,12 +275,12 @@ const copy = lang === 'zh'
   </section>
 
   <!-- ── Download CTA ── -->
-  <section class="border-t border-border">
+  <section id="download" class="border-t border-border">
     <div class="dot-grid mx-auto max-w-6xl px-6 py-20 text-center md:py-28">
       <div class="reveal">
         <h2 class="text-3xl font-bold tracking-tight md:text-4xl">{i.cta.title}</h2>
         <p class="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">{i.cta.desc}</p>
-        <div class="mt-8 flex justify-center">
+        <div class="relative z-20 mt-8 flex justify-center">
           <DownloadButtons client:load lang={lang} />
         </div>
       </div>

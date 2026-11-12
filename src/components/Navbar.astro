@@ -43,7 +43,7 @@ const otherLocaleUrl = lang === 'zh' ? '/en/' : '/';
       </a>
       <ThemeToggle client:load />
       <a
-        href={href(lang, 'download')}
+        href={`${root}#download`}
         class="inline-flex h-8 items-center rounded-full bg-primary px-4 text-[13px] font-medium text-primary-foreground transition-opacity hover:opacity-90"
       >
         {n.download}
