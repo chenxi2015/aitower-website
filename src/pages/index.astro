@@ -1,0 +1,224 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BentoCard from '../components/BentoCard.astro';
+import StudioMock from '../components/StudioMock.astro';
+import DownloadButtons from '../components/DownloadButtons';
+import {
+  NotebookPen, PenTool, Sparkles, Link2, ImageDown, Search,
+  Layers, MessagesSquare, ArrowRight, Wand2, FileImage, MousePointerClick,
+} from 'lucide-react';
+---
+
+<BaseLayout>
+  <Navbar />
+
+  <!-- ── Hero ── -->
+  <section class="dot-grid relative overflow-hidden border-b border-border">
+    <div class="mx-auto max-w-6xl px-6 pt-20 pb-16 text-center md:pt-28">
+      <div class="animate-fade-up inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-muted-foreground shadow-2xs">
+        <Sparkles size={13} className="text-amber-500" />
+        基于 Obsidian 本地生态 · 本地优先 · 不破坏原文件
+      </div>
+
+      <h1 class="animate-fade-up mx-auto mt-7 max-w-3xl text-4xl leading-[1.15] font-bold tracking-tight md:text-6xl" style="animation-delay: 80ms">
+        去 AI 味的<span class="marker-underline">思想脚手架</span><br />
+        手绘风配图与架构
+      </h1>
+
+      <p class="animate-fade-up mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg" style="animation-delay: 160ms">
+        aitower 读取你 Obsidian 里沉睡的笔记碎片，AI 帮你发散、推敲、扩写成有温度的深度长文；创作台手绘图表，一键插入文章光标处。
+      </p>
+
+      <div class="animate-fade-up mt-9 flex justify-center" style="animation-delay: 240ms">
+        <DownloadButtons client:load />
+      </div>
+
+      <!-- App mock -->
+      <div class="animate-fade-up mx-auto mt-16 max-w-4xl" style="animation-delay: 340ms">
+        <div class="rounded-2xl border border-border bg-muted/50 p-2 shadow-xl shadow-zinc-950/5">
+          <div class="aspect-[16/9]">
+            <StudioMock />
+          </div>
+        </div>
+        <p class="mt-4 text-xs text-muted-foreground/70">创作台 · 三栏工作台实景（示意动效）</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Bento: two core modules ── -->
+  <section id="features" class="mx-auto max-w-6xl px-6 py-20 md:py-28">
+    <div class="reveal mb-12 text-center">
+      <p class="text-xs font-semibold tracking-widest text-muted-foreground uppercase">两大业务板块</p>
+      <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">写作与配图，不出一个窗口</h2>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-6">
+      <!-- 笔记 module: large card -->
+      <BentoCard class="md:col-span-4 flex flex-col">
+        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-note-blue/50 text-blue-600 dark:text-blue-400">
+          <NotebookPen size={20} />
+        </div>
+        <h3 class="text-lg font-semibold">笔记 · 长文创作中心</h3>
+        <p class="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+          CodeMirror 6 双模编辑，直连 Obsidian 目录。Live Preview 实时预览、Wikilink 双链补全、图片拖拽排版，原生兼容 .canvas 与 Excalidraw。
+        </p>
+        <!-- mini editor mock -->
+        <div class="mt-6 flex-1 rounded-lg border border-border bg-muted/40 p-4 font-mono text-xs leading-6">
+          <p class="text-zinc-400">## 反直觉的架构决策</p>
+          <p class="text-foreground">稳定性的代价，往往藏在<span class="text-indigo-500">[[幂等设计]]</span>里。</p>
+          <p class="text-zinc-400">![[架构演进图.excalidraw]]</p>
+          <p class="text-foreground">当重试风暴来临时…<span class="ml-0.5 inline-block h-3 w-px animate-blink bg-zinc-500 align-middle"></span></p>
+        </div>
+      </BentoCard>
+
+      <!-- AI agent -->
+      <BentoCard class="md:col-span-2" delay={80}>
+        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-note-purple/60 text-purple-600 dark:text-purple-400">
+          <MessagesSquare size={20} />
+        </div>
+        <h3 class="text-lg font-semibold">AI Agent 嵌入式面板</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+          感知当前文章、选中笔记或画板元素。灵感发散、跨笔记混合推理、结构化扩写，流式打字机响应。
+        </p>
+        <div class="mt-5 space-y-2">
+          {['为本段配图', '提炼反直觉观点', '生成对比矩阵'].map((t, i) => (
+            <div class="flex items-center gap-2 rounded-lg bg-muted px-3 py-2 text-xs text-muted-foreground transition-transform hover:translate-x-1">
+              <Wand2 size={12} className="shrink-0 text-purple-500" />{t}
+            </div>
+          ))}
+        </div>
+      </BentoCard>
+
+      <!-- 创作 module: large card -->
+      <BentoCard class="md:col-span-4 flex flex-col" delay={80}>
+        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-note-green/60 text-green-600 dark:text-green-400">
+          <PenTool size={20} />
+        </div>
+        <h3 class="text-lg font-semibold">创作 · 无限画板设计台</h3>
+        <p class="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+          基于 Excalidraw 深度定制。手绘风素材抽屉、架构组件、便签胶带、场景模板，拖拽即用——配图是逻辑的外化，不是油腻的 AI 插图。
+        </p>
+        <!-- sticky notes mock -->
+        <div class="mt-6 flex flex-1 flex-wrap items-start gap-3">
+          <div class="w-32 -rotate-2 rounded-md bg-note-yellow p-3 text-[11px] leading-snug text-yellow-900 shadow-sm transition-transform hover:rotate-0 hover:scale-105">Goal: 30% less planning time</div>
+          <div class="w-32 rotate-1 rounded-md bg-note-blue p-3 text-[11px] leading-snug text-blue-900 transition-transform hover:rotate-0 hover:scale-105">Undo a reroute in one tap?</div>
+          <div class="w-32 -rotate-1 rounded-md bg-note-pink p-3 text-[11px] leading-snug text-pink-900 transition-transform hover:rotate-0 hover:scale-105">Drivers replan stops by hand</div>
+          <div class="w-32 rotate-2 rounded-md bg-note-green p-3 text-[11px] leading-snug text-green-900 transition-transform hover:rotate-0 hover:scale-105">Beta: 200 drivers, Wed 4 Nov</div>
+        </div>
+      </BentoCard>
+
+      <!-- insert pipeline -->
+      <BentoCard class="md:col-span-2" delay={160}>
+        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-note-yellow/70 text-yellow-700 dark:text-yellow-400">
+          <ImageDown size={20} />
+        </div>
+        <h3 class="text-lg font-semibold">一键插入文章</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+          画板导出高清 PNG/SVG，自动存入 Obsidian 资产目录，光标处自动打入 Markdown 引用。全程 1 秒，无需跳出。
+        </p>
+        <div class="mt-5 flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+          <span class="rounded-md border border-border bg-muted px-2 py-1">画板</span>
+          <ArrowRight size={12} className="shrink-0" />
+          <span class="rounded-md border border-border bg-muted px-2 py-1">PNG</span>
+          <ArrowRight size={12} className="shrink-0" />
+          <span class="rounded-md border border-border bg-muted px-2 py-1">![[…]]</span>
+        </div>
+      </BentoCard>
+
+      <!-- search -->
+      <BentoCard class="md:col-span-2">
+        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+          <Search size={20} />
+        </div>
+        <h3 class="text-lg font-semibold">穿透双链网络</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+          搜索与检索穿透 <code class="rounded bg-muted px-1 py-0.5 text-[11px]">[[双链]]</code> 与 .canvas 结构，概念、引用、画板资产交叉归纳。
+        </p>
+      </BentoCard>
+
+      <!-- local first -->
+      <BentoCard class="md:col-span-2" delay={80}>
+        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+          <Layers size={20} />
+        </div>
+        <h3 class="text-lg font-semibold">本地优先，尊重资产</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+          直接读写你的 Vault，删除走系统回收站，不做任何中间数据库的暗箱篡改。你的笔记永远是你的。
+        </p>
+      </BentoCard>
+
+      <!-- multi-session -->
+      <BentoCard class="md:col-span-2" delay={160}>
+        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+          <Link2 size={20} />
+        </div>
+        <h3 class="text-lg font-semibold">多会话并发不串台</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+          后台会话静默生成，随时切入承接打字流。写作问 AI、画板调 Agent，互不干扰。
+        </p>
+      </BentoCard>
+    </div>
+  </section>
+
+  <!-- ── Workflow: three steps ── -->
+  <section id="workflow" class="border-y border-border bg-muted/30">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-28">
+      <div class="reveal mb-14 text-center">
+        <p class="text-xs font-semibold tracking-widest text-muted-foreground uppercase">配图闭环</p>
+        <h2 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">从想法到插图，只需三步</h2>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-3">
+        {[
+          { icon: MousePointerClick, title: '唤起配图', desc: '写作中点击「为本段配图」，或在右侧 Agent 唤起，创作台就地激活草稿。', color: 'bg-note-blue/50 text-blue-600 dark:text-blue-400' },
+          { icon: PenTool, title: '画板设计', desc: '手绘风组件与模板拖拽即用，AI 可直接生成流程图、时序图、架构图场景。', color: 'bg-note-green/60 text-green-600 dark:text-green-400' },
+          { icon: FileImage, title: '一键插入', desc: '导出高清 PNG/SVG 存入资产目录，Markdown 引用自动落在光标处。', color: 'bg-note-yellow/70 text-yellow-700 dark:text-yellow-400' },
+        ].map((s, i) => (
+          <BentoCard delay={i * 100}>
+            <div class="mb-4 flex items-center justify-between">
+              <div class={`flex h-10 w-10 items-center justify-center rounded-xl ${s.color}`}>
+                <s.icon size={20} />
+              </div>
+              <span class="font-mono text-4xl font-bold text-zinc-200 dark:text-zinc-800">{`0${i + 1}`}</span>
+            </div>
+            <h3 class="text-lg font-semibold">{s.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
+          </BentoCard>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Philosophy ── -->
+  <section class="mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
+    <div class="reveal">
+      <p class="text-xs font-semibold tracking-widest text-muted-foreground uppercase">为什么「半手搓」</p>
+      <h2 class="mt-4 text-2xl leading-snug font-bold tracking-tight md:text-4xl md:leading-snug">
+        AI 不做流水线甩手掌柜，<br />
+        而是<span class="marker-underline">对话式的思想脚手架</span>。
+      </h2>
+      <p class="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">
+        在 AI 垃圾与塑料感假图泛滥的时代，带有作者真实思考轨迹与审美品味的「半手搓」内容，才是最高阶的资产。文章由你把控打磨，配图是逻辑的直接外化。
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Download CTA ── -->
+  <section class="border-t border-border">
+    <div class="dot-grid mx-auto max-w-6xl px-6 py-20 text-center md:py-28">
+      <div class="reveal">
+        <h2 class="text-3xl font-bold tracking-tight md:text-4xl">开始你的第一篇深度长文</h2>
+        <p class="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
+          免费下载，支持 macOS / Windows / Linux。连接你的 Obsidian Vault，即刻开写。
+        </p>
+        <div class="mt-8 flex justify-center">
+          <DownloadButtons client:load />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

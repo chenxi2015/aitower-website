@@ -1,0 +1,22 @@
+---
+import { t, href, GITHUB, RELEASES_REPO, type Lang } from '../data/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const f = t[lang].footer;
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border">
+  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-10 text-sm text-muted-foreground md:flex-row">
+    <div class="flex items-center gap-2">
+      <img src="/favicon.svg" alt="" class="h-5 w-5 rounded" />
+      <span>© {year} aitower · {f.tagline}</span>
+    </div>
+    <div class="flex items-center gap-5">
+      <a href={GITHUB} target="_blank" rel="noreferrer" class="transition-colors hover:text-foreground">GitHub</a>
+      <a href={RELEASES_REPO} target="_blank" rel="noreferrer" class="transition-colors hover:text-foreground">{f.releases}</a>
+      <a href={href(lang, 'changelog')} class="transition-colors hover:text-foreground">{f.changelog}</a>
+    </div>
+  </div>
+</footer>
