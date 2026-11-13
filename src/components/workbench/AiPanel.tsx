@@ -52,9 +52,7 @@ export default function AiPanel({ lang, messages, running, opsDone, totalDuratio
       <div className="flex-1 space-y-3 overflow-y-auto p-3.5">
         {messages.length === 0 && (
           <div className="mt-4 flex flex-col items-center gap-2.5 px-2 text-center">
-            <div className="rounded-[14px] border border-black/[0.045] bg-white p-2 shadow-[0_5px_16px_rgba(0,0,0,0.06)] dark:border-white/[0.08] dark:bg-white/[0.04]">
-              <LogoMark size={36} className="rounded-[9px]" />
-            </div>
+            <LogoMark size={36} className="rounded-[9px]" />
             <div>
               <p className="text-[12px] font-semibold tracking-[-0.01em]">{zh ? 'aitower 创作伙伴' : 'aitower creative partner'}</p>
               <p className="mt-1.5 text-[9px] leading-relaxed text-muted-foreground/80">
