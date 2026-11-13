@@ -35,33 +35,38 @@ export default function AiPanel({ lang, messages, running, opsDone, totalDuratio
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (messages.length > 0) {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   }, [messages, opsDone]);
 
   return (
     <div className="flex h-full flex-col">
       {/* header */}
-      <div className="flex items-center gap-1.5 border-b border-border px-3 py-2">
+      <div className="flex h-9 items-center gap-1.5 border-b border-black/[0.05] bg-white px-3.5 dark:border-white/[0.06] dark:bg-zinc-950/30">
         <span className="text-[11px] font-semibold">{zh ? 'AI 助手' : 'AI Assistant'}</span>
-        <span className={`h-1.5 w-1.5 rounded-full ${running ? 'bg-amber-500' : 'bg-emerald-500'}`} style={running ? { animation: 'blink 1s step-end infinite' } : undefined} />
+        <span className={`h-1.5 w-1.5 rounded-full ring-2 ${running ? 'bg-amber-500 ring-amber-500/10' : 'bg-emerald-500 ring-emerald-500/10'}`} style={running ? { animation: 'blink 1s step-end infinite' } : undefined} />
       </div>
 
       {/* messages / empty state */}
-      <div className="flex-1 space-y-3 overflow-y-auto p-3">
+      <div className="flex-1 space-y-3 overflow-y-auto p-3.5">
         {messages.length === 0 && (
-          <div className="mt-10 flex flex-col items-center gap-3 px-3 text-center">
-            <LogoMark size={40} className="rounded-xl shadow-sm" />
+          <div className="mt-4 flex flex-col items-center gap-2.5 px-2 text-center">
+            <div className="rounded-[14px] border border-black/[0.045] bg-white p-2 shadow-[0_5px_16px_rgba(0,0,0,0.06)] dark:border-white/[0.08] dark:bg-white/[0.04]">
+              <LogoMark size={36} className="rounded-[9px]" />
+            </div>
             <div>
-              <p className="text-[12px] font-semibold">{zh ? 'aitower 创作伙伴' : 'aitower creative partner'}</p>
-              <p className="mt-1 text-[9px] leading-relaxed text-muted-foreground">
+              <p className="text-[12px] font-semibold tracking-[-0.01em]">{zh ? 'aitower 创作伙伴' : 'aitower creative partner'}</p>
+              <p className="mt-1.5 text-[9px] leading-relaxed text-muted-foreground/80">
                 {zh ? '整理思想 · 总结资料 · 生成文章 · 手绘画图' : 'Organize thoughts · Synthesize docs · Write articles · Hand-drawn diagrams'}
               </p>
             </div>
             <div className="mt-2 flex w-full flex-col gap-1.5">
               {quickActions.map((q) => (
-                <div key={q.zh} className="flex items-center gap-2 rounded-lg border border-border bg-card px-2.5 py-2 text-left text-[10px] font-medium shadow-2xs transition-all hover:-translate-y-px hover:shadow-sm">
-                  <q.icon size={11} className="shrink-0 text-muted-foreground" />
+                <div key={q.zh} className="group flex items-center gap-2 rounded-[9px] border border-black/[0.055] bg-white px-2.5 py-2 text-left text-[10px] font-medium shadow-[0_1px_2px_rgba(0,0,0,0.025)] transition-all hover:-translate-y-px hover:border-black/10 hover:shadow-sm dark:border-white/[0.07] dark:bg-white/[0.025] dark:hover:border-white/[0.12]">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-zinc-50 text-muted-foreground transition-colors group-hover:text-foreground dark:bg-white/[0.04]"><q.icon size={11} /></span>
                   <span className="truncate">{zh ? q.zh : q.en}</span>
+                  <ChevronRight size={10} className="ml-auto shrink-0 text-muted-foreground/30 transition-transform group-hover:translate-x-0.5" />
                 </div>
               ))}
             </div>
@@ -123,8 +128,8 @@ export default function AiPanel({ lang, messages, running, opsDone, totalDuratio
       </div>
 
       {/* context capsule + composer */}
-      <div className="border-t border-border p-2.5">
-        <div className="mb-2 inline-flex max-w-full items-center gap-1.5 rounded-lg border border-border bg-card px-2 py-1 text-[9px] text-muted-foreground shadow-2xs">
+      <div className="border-t border-black/[0.05] bg-white p-3 dark:border-white/[0.06] dark:bg-zinc-950/30">
+        <div className="mb-2 inline-flex max-w-full items-center gap-1.5 rounded-lg border border-black/[0.045] bg-zinc-50/80 px-2 py-1 text-[9px] text-muted-foreground dark:border-white/[0.06] dark:bg-white/[0.025]">
           <span className="h-1.5 w-1.5 shrink-0 rounded-sm bg-violet-500" />
           <span className="truncate">{contextLabel}</span>
           <span className="shrink-0 rounded bg-violet-100 px-1 text-[8px] font-medium text-violet-700 dark:bg-violet-900/40 dark:text-violet-300">
@@ -132,7 +137,7 @@ export default function AiPanel({ lang, messages, running, opsDone, totalDuratio
           </span>
         </div>
         <form
-          className="rounded-xl border border-border bg-card"
+          className="rounded-[10px] border border-black/[0.075] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.035)] transition-colors focus-within:border-zinc-300 dark:border-white/[0.1] dark:bg-white/[0.025] dark:focus-within:border-white/20"
           onSubmit={(e) => {
             e.preventDefault();
             const v = inputRef.current?.value.trim();

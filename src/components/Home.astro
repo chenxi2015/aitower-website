@@ -99,7 +99,7 @@ const copy = lang === 'zh'
   <Navbar lang={lang} />
 
   <!-- ── Hero ── -->
-  <section class="dot-grid relative overflow-hidden border-b border-border bg-[#f7f6f2] dark:bg-transparent">
+  <section class="hero-section dot-grid relative overflow-hidden border-b border-border bg-[#f7f6f2] dark:bg-transparent">
     <div class="relative mx-auto max-w-6xl px-6 pt-20 text-center md:pt-28">
       <!-- Decorative flying logo arrow pointing to top right (Label 3) -->
       <div class="pointer-events-none absolute right-4 top-24 z-10 hidden md:block lg:right-10 xl:right-14">
@@ -111,12 +111,12 @@ const copy = lang === 'zh'
         {i.hero.badge}
       </div>
 
-      <h1 class="animate-fade-up mx-auto mt-7 max-w-5xl text-3xl sm:text-5xl md:text-6xl leading-[1.18] font-bold tracking-tight" style="animation-delay: 80ms">
+      <h1 class="animate-fade-up mx-auto mt-7 max-w-5xl text-[clamp(1.65rem,7.2vw,2rem)] sm:text-5xl md:text-6xl leading-[1.18] font-semibold tracking-[-0.035em]" style="animation-delay: 80ms">
         <span class="inline-block">{i.hero.titleA}{' '}<HeroRotatingKeyword client:load words={[...(i.hero.titleHighlights || [i.hero.titleHighlight])]} /></span><br />
-        <span class="inline-block">{i.hero.titleB}</span>
+        <span class="inline-block whitespace-nowrap">{i.hero.titleB}</span>
       </h1>
 
-      <p class="animate-fade-up mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg" style="animation-delay: 160ms">
+      <p class="animate-fade-up mx-auto mt-6 max-w-xl text-base leading-8 text-muted-foreground md:text-[17px]" style="animation-delay: 160ms">
         {i.hero.sub}
       </p>
 
@@ -125,7 +125,7 @@ const copy = lang === 'zh'
       </div>
 
       <!-- Interactive workbench: a working miniature of the desktop app, rendered immediately on first paint -->
-      <div class="animate-fade-up relative z-10 mx-auto mt-16 max-w-6xl">
+      <div class="hero-product-stage animate-fade-up relative z-10 mx-auto mt-12 max-w-6xl md:mt-16">
         <InteractiveWorkbench client:load lang={lang} />
       </div>
     </div>

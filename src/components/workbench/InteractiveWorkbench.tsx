@@ -5,22 +5,26 @@ import NotesWorkspace from './NotesWorkspace';
 import StudioWorkspace from './StudioWorkspace';
 import AiPanel, { type ChatMessage } from './AiPanel';
 import LogoMark from './LogoMark';
+import ToolWorkspace, { type ToolWorkspaceId } from './ToolWorkspace';
+import type { StudioPanelId } from './StudioWorkspace';
+import MobileWorkspace from './MobileWorkspace';
 import {
-  NotebookPen, PenTool, Crown, Sun, CircleHelp, SlidersHorizontal,
-  SquarePen, History, PanelLeft, LayoutGrid, Puzzle, Wrench, Sparkles, Zap,
+  NotebookPen, PenTool, Sun, CircleHelp, SlidersHorizontal,
+  PanelLeft, LayoutGrid, Frame, SquarePen, Wrench, Zap,
 } from 'lucide-react';
 
 interface Props {
   lang: Lang;
 }
 
-const dockIcons = [PanelLeft, LayoutGrid, Puzzle, SquarePen, Wrench, Zap];
+type StudioView = StudioPanelId | ToolWorkspaceId;
 
 // A faithful, interactive miniature of the aitower desktop app,
 // redrawn from real product screenshots.
 export default function InteractiveWorkbench({ lang }: Props) {
   const zh = lang === 'zh';
   const [module, setModule] = useState<ModuleId>('studio');
+  const [studioView, setStudioView] = useState<StudioView>('assets');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [running, setRunning] = useState(false);
   const [opsDone, setOpsDone] = useState(0);
@@ -100,37 +104,57 @@ export default function InteractiveWorkbench({ lang }: Props) {
     ]);
   };
 
+  const dockItems = [
+    { id: 'boards' as const, icon: PanelLeft, zh: '画板列表', en: 'Board list' },
+    { id: 'frames' as const, icon: LayoutGrid, zh: '画板框架', en: 'Board frames' },
+    { id: 'templates' as const, icon: Frame, zh: '画板模板', en: 'Board templates' },
+    { id: 'assets' as const, icon: SquarePen, zh: '素材库', en: 'Asset library' },
+    { id: 'images' as const, icon: Wrench, zh: '图片工具箱', en: 'Image tools' },
+    { id: 'skills' as const, icon: Zap, zh: '智能体技能库', en: 'Agent skills' },
+  ];
+
   const contextLabel = module === 'studio'
     ? (zh ? '未命名画板 按时打…' : 'Untitled board route…')
     : (zh ? '去 AI 味的写作.md' : 'writing-without-slop.md');
 
   return (
-    <div className="flex overflow-hidden rounded-t-2xl rounded-b-none border border-border border-b-none bg-background text-left shadow-xl shadow-zinc-950/5">
+    <>
+    <div className="h-[478px] w-full px-1 pb-5 sm:hidden">
+      <MobileWorkspace lang={lang} />
+    </div>
+    <div className="hero-workbench relative hidden overflow-hidden rounded-t-[18px] rounded-b-none border border-black/[0.08] border-b-0 bg-background text-left shadow-[0_32px_80px_-32px_rgba(39,39,42,0.24),0_8px_24px_-12px_rgba(39,39,42,0.12)] dark:border-white/10 dark:shadow-[0_32px_80px_-28px_rgba(0,0,0,0.7)] sm:flex">
       {/* slim icon dock */}
-      {module === 'studio' && <div className="hidden w-9 shrink-0 flex-col items-center gap-1 border-r border-border py-2 sm:flex">
-        {dockIcons.map((Icon, i) => (
-          <div
-            key={i}
-            className={`flex h-7 w-7 items-center justify-center rounded-lg ${'text-muted-foreground/70'}`}
+      {module === 'studio' && <div className="hidden w-10 shrink-0 flex-col items-center gap-1.5 border-r border-black/[0.055] bg-zinc-50/50 py-3 dark:border-white/[0.06] dark:bg-white/[0.015] sm:flex">
+        {dockItems.map((item) => (
+          <button
+            type="button"
+            key={item.id}
+            aria-label={zh ? item.zh : item.en}
+            title={zh ? item.zh : item.en}
+            aria-pressed={studioView === item.id}
+            onClick={() => setStudioView(item.id)}
+            className={`flex h-7 w-7 cursor-pointer items-center justify-center rounded-[7px] transition-colors ${studioView === item.id ? 'bg-white text-foreground shadow-[0_1px_3px_rgba(0,0,0,0.08)] ring-1 ring-black/[0.04] dark:bg-white/10 dark:ring-white/[0.06]' : 'text-muted-foreground/60 hover:bg-black/[0.035] hover:text-foreground dark:hover:bg-white/[0.06]'}`}
           >
-            <Icon size={13} />
-          </div>
+            <item.icon size={13} />
+          </button>
         ))}
       </div>}
 
       <div className="min-w-0 flex-1">
         {/* title bar */}
-        <div className="flex items-center border-b border-border px-3 py-3">
-          <div className="flex items-center gap-1.5">
+        <div className="flex h-12 items-center border-b border-black/[0.055] bg-white/90 px-4 dark:border-white/[0.06] dark:bg-zinc-950/50">
+          <div className="flex items-center gap-2">
             <i className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
             <i className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
             <i className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
           </div>
-          <LogoMark size={16} className="ml-2 rounded" />
-          <span className="ml-1.5 text-[11px] font-bold tracking-tight">aitower</span>
+          <div className="hidden items-center sm:flex">
+            <LogoMark size={17} className="ml-3 rounded" />
+            <span className="ml-1.5 text-[11px] font-semibold tracking-[-0.01em]">aitower</span>
+          </div>
 
           {/* centered module seg-tab */}
-          <div className="seg-tab-group absolute left-1/2 -translate-x-1/2">
+          <div className="seg-tab-group absolute left-1/2 -translate-x-1/2 shadow-none">
             <button className={`seg-tab ${module === 'notes' ? 'active' : ''}`} style={{ padding: '2px 12px', fontSize: 10 }} onClick={() => setModule('notes')}>
               <NotebookPen size={11} />
               {zh ? '笔记' : 'Notes'}
@@ -141,7 +165,7 @@ export default function InteractiveWorkbench({ lang }: Props) {
             </button>
           </div>
 
-          <div className="ml-auto flex items-center gap-2.5 text-muted-foreground">
+          <div className="ml-auto flex items-center gap-3.5 text-muted-foreground/70">
             <Sun size={11} className="hidden sm:block" />
             <CircleHelp size={11} className="hidden sm:block" />
             <SlidersHorizontal size={11} className="hidden sm:block" />
@@ -149,15 +173,17 @@ export default function InteractiveWorkbench({ lang }: Props) {
         </div>
 
         {/* body: workspace + AI panel */}
-        <div className="grid h-[400px] grid-cols-1 md:h-[440px] md:grid-cols-[1fr_250px]">
+        <div className="grid h-[400px] grid-cols-1 md:h-[456px] md:grid-cols-[1fr_258px]">
           <div className="min-h-0 min-w-0">
             {module === 'notes' ? (
               <NotesWorkspace lang={lang} insertedImage={insertedImage} highlightedNoteId={highlightedNote} />
+            ) : studioView === 'images' || studioView === 'skills' ? (
+              <ToolWorkspace lang={lang} view={studioView} />
             ) : (
-              <StudioWorkspace lang={lang} flowGenerated={flowGenerated} />
+              <StudioWorkspace lang={lang} flowGenerated={flowGenerated} panel={studioView} onPanelChange={setStudioView} />
             )}
           </div>
-          <div className="hidden min-h-0 border-l border-border md:block">
+          <div className="hidden min-h-0 border-l border-black/[0.055] bg-zinc-50/30 dark:border-white/[0.06] dark:bg-white/[0.01] md:block">
             <AiPanel
               lang={lang}
               messages={messages}
@@ -171,5 +197,6 @@ export default function InteractiveWorkbench({ lang }: Props) {
         </div>
       </div>
     </div>
+    </>
   );
 }
