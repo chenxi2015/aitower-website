@@ -120,7 +120,7 @@ export default function InteractiveWorkbench({ lang }: Props) {
 
       <div className="min-w-0 flex-1">
         {/* title bar */}
-        <div className="flex items-center border-b border-border px-3 py-2">
+        <div className="flex items-center border-b border-border px-3 py-3">
           <div className="flex items-center gap-1.5">
             <i className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
             <i className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />

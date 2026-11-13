@@ -1,0 +1,150 @@
+@import './iso.css';
+
+.bento-card:has(.instrument-shell) {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 0;
+}
+
+.bento-card:has(.instrument-shell) > div:first-child {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 12px;
+  flex: none;
+}
+
+.bento-card:has(.instrument-shell) > p {
+  margin-top: 6px;
+}
+
+.instrument-shell {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  margin: 14px -8px 0;
+  min-height: 210px;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .bento-card:has([data-kind='notes']),
+  .bento-card:has([data-kind='studio']),
+  .bento-card:has([data-kind='agent']),
+  .bento-card:has([data-kind='pipeline']) {
+    height: 470px;
+  }
+
+  .bento-card:has([data-kind='search']),
+  .bento-card:has([data-kind='local']),
+  .bento-card:has([data-kind='session']) {
+    height: 375px;
+  }
+
+  .instrument-shell {
+    min-height: 0;
+  }
+
+  .instrument-shell[data-kind='notes'],
+  .instrument-shell[data-kind='studio'] {
+    height: 300px;
+    flex: 1;
+  }
+
+  .instrument-shell[data-kind='agent'],
+  .instrument-shell[data-kind='pipeline'] {
+    margin-top: 18px;
+  }
+
+  .instrument-shell[data-kind='agent'] .aitower-instrument,
+  .instrument-shell[data-kind='pipeline'] .aitower-instrument,
+  .instrument-shell[data-kind='search'] .aitower-instrument,
+  .instrument-shell[data-kind='local'] .aitower-instrument,
+  .instrument-shell[data-kind='session'] .aitower-instrument {
+    width: min(160%, 480px);
+    max-width: none;
+    flex: none;
+  }
+}
+
+.aitower-instrument {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  --anatomy-page: var(--card);
+  --anatomy-card: var(--card);
+  --anatomy-text: #57575a;
+  --anatomy-strong: #18181a;
+  --anatomy-muted: #8c8c90;
+  --anatomy-paper: var(--card);
+  --anatomy-face: var(--card);
+  --anatomy-top: var(--card);
+  --anatomy-shade-0: #dcdcd9;
+  --anatomy-shade-1: #e5e5e2;
+  --anatomy-shade-2: #ededea;
+  --anatomy-shade-3: #f4f4f1;
+  --anatomy-lit-top: var(--card);
+  --anatomy-lit-shade: #eeeeeb;
+  --anatomy-hi: #26262a;
+  --anatomy-mid: #8a8a8f;
+  --anatomy-lo: #b4b4b8;
+  --anatomy-faint: #d4d4d6;
+  --anatomy-lit: #000;
+  --anatomy-halo: #8a8a80;
+  --anatomy-halo-opacity: .28;
+  --anatomy-dot: #3a3a3e;
+  --anatomy-weight: .7px;
+  cursor: pointer;
+  outline: none;
+}
+
+.dark .aitower-instrument {
+  --anatomy-page: var(--card);
+  --anatomy-card: var(--card);
+  --anatomy-text: #a3a3a3;
+  --anatomy-strong: #e6e6e6;
+  --anatomy-muted: #6e6e6e;
+  --anatomy-paper: var(--card);
+  --anatomy-face: var(--card);
+  --anatomy-top: var(--card);
+  --anatomy-shade-0: #0f0f0f;
+  --anatomy-shade-1: #121212;
+  --anatomy-shade-2: #151515;
+  --anatomy-shade-3: #181818;
+  --anatomy-lit-top: #262626;
+  --anatomy-lit-shade: #1d1d1d;
+  --anatomy-hi: #d4d4d4;
+  --anatomy-mid: #6a6a6a;
+  --anatomy-lo: #3e3e3e;
+  --anatomy-faint: #2a2a2a;
+  --anatomy-lit: #fff;
+  --anatomy-halo: #050505;
+  --anatomy-halo-opacity: .8;
+  --anatomy-dot: #e6e6e6;
+}
+
+.aitower-instrument svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.aitower-instrument:focus-visible {
+  outline: 1px solid var(--anatomy-mid);
+  outline-offset: -5px;
+}
+
+@media (max-width: 640px) {
+  .instrument-shell { min-height: 230px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aitower-instrument * { animation: none !important; }
+}

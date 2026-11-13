@@ -7,10 +7,12 @@ import InteractiveWorkbench from './workbench/InteractiveWorkbench';
 import DownloadButtons from './DownloadButtons';
 import HeroRotatingKeyword from './HeroRotatingKeyword';
 import FlyingLogoArrow from './FlyingLogoArrow.astro';
+import Instrument from './anatomy/Instrument';
+import './anatomy/instrument.css';
 import { t, type Lang } from '../data/i18n';
 import {
   NotebookPen, PenTool, Sparkles, Link2, ImageDown, Search,
-  Layers, MessagesSquare, ArrowRight, Wand2, FileImage, MousePointerClick,
+  Layers, MessagesSquare, FileImage, MousePointerClick,
 } from 'lucide-react';
 
 interface Props { lang: Lang }
@@ -123,7 +125,7 @@ const copy = lang === 'zh'
       </div>
 
       <!-- Interactive workbench: a working miniature of the desktop app, rendered immediately on first paint -->
-      <div class="animate-fade-up relative z-10 mx-auto mt-16 max-w-5xl">
+      <div class="animate-fade-up relative z-10 mx-auto mt-16 max-w-6xl">
         <InteractiveWorkbench client:load lang={lang} />
       </div>
     </div>
@@ -138,19 +140,13 @@ const copy = lang === 'zh'
 
     <div class="grid gap-4 md:grid-cols-6">
       <!-- Notes module: large card -->
-      <BentoCard class="md:col-span-4 flex flex-col">
+      <BentoCard class="md:col-span-4">
         <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-note-blue/50 text-blue-600 dark:text-blue-400">
           <NotebookPen size={20} />
         </div>
         <h3 class="text-lg font-semibold">{copy.notes.title}</h3>
         <p class="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">{copy.notes.desc}</p>
-        <!-- mini editor mock -->
-        <div class="mt-6 flex-1 rounded-lg border border-border bg-muted/40 p-4 font-mono text-xs leading-6">
-          <p class="text-zinc-400">## {lang === 'zh' ? '反直觉的架构决策' : 'Counter-intuitive architecture decisions'}</p>
-          <p class="text-foreground">{lang === 'zh' ? '稳定性的代价，往往藏在' : 'The cost of stability hides in'}<span class="text-indigo-500">[[{lang === 'zh' ? '幂等设计' : 'idempotency'}]]</span>{lang === 'zh' ? '里。' : '.'}</p>
-          <p class="text-zinc-400">![[{lang === 'zh' ? '架构演进图.excalidraw' : 'architecture-evolution.excalidraw'}]]</p>
-          <p class="text-foreground">{lang === 'zh' ? '当重试风暴来临时…' : 'When the retry storm hits…'}<span class="ml-0.5 inline-block h-3 w-px animate-blink bg-zinc-500 align-middle"></span></p>
-        </div>
+        <Instrument kind="notes" lang={lang} client:visible />
       </BentoCard>
 
       <!-- AI agent -->
@@ -160,13 +156,7 @@ const copy = lang === 'zh'
         </div>
         <h3 class="text-lg font-semibold">{copy.agent.title}</h3>
         <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{copy.agent.desc}</p>
-        <div class="mt-5 space-y-2">
-          {copy.agent.actions.map((action) => (
-            <div class="flex items-center gap-2 rounded-lg bg-muted px-3 py-2 text-xs text-muted-foreground transition-transform hover:translate-x-1">
-              <Wand2 size={12} className="shrink-0 text-purple-500" />{action}
-            </div>
-          ))}
-        </div>
+        <Instrument kind="agent" lang={lang} client:visible />
       </BentoCard>
 
       <!-- Studio module: large card -->
@@ -176,13 +166,7 @@ const copy = lang === 'zh'
         </div>
         <h3 class="text-lg font-semibold">{copy.studio.title}</h3>
         <p class="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">{copy.studio.desc}</p>
-        <!-- sticky notes mock -->
-        <div class="mt-6 flex flex-1 flex-wrap items-start gap-3">
-          <div class="w-32 -rotate-2 rounded-md bg-note-yellow p-3 text-[11px] leading-snug text-yellow-900 shadow-sm transition-transform hover:rotate-0 hover:scale-105">Goal: 30% less planning time</div>
-          <div class="w-32 rotate-1 rounded-md bg-note-blue p-3 text-[11px] leading-snug text-blue-900 transition-transform hover:rotate-0 hover:scale-105">Undo a reroute in one tap?</div>
-          <div class="w-32 -rotate-1 rounded-md bg-note-pink p-3 text-[11px] leading-snug text-pink-900 transition-transform hover:rotate-0 hover:scale-105">Drivers replan stops by hand</div>
-          <div class="w-32 rotate-2 rounded-md bg-note-green p-3 text-[11px] leading-snug text-green-900 transition-transform hover:rotate-0 hover:scale-105">Beta: 200 drivers, Wed 4 Nov</div>
-        </div>
+        <Instrument kind="studio" lang={lang} client:visible />
       </BentoCard>
 
       <!-- insert pipeline -->
@@ -192,13 +176,7 @@ const copy = lang === 'zh'
         </div>
         <h3 class="text-lg font-semibold">{copy.pipeline.title}</h3>
         <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{copy.pipeline.desc}</p>
-        <div class="mt-5 flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
-          <span class="rounded-md border border-border bg-muted px-2 py-1">{copy.pipeline.steps[0]}</span>
-          <ArrowRight size={12} className="shrink-0" />
-          <span class="rounded-md border border-border bg-muted px-2 py-1">{copy.pipeline.steps[1]}</span>
-          <ArrowRight size={12} className="shrink-0" />
-          <span class="rounded-md border border-border bg-muted px-2 py-1">{copy.pipeline.steps[2]}</span>
-        </div>
+        <Instrument kind="pipeline" lang={lang} client:visible />
       </BentoCard>
 
       <!-- search -->
@@ -210,6 +188,7 @@ const copy = lang === 'zh'
         <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
           {copy.search.descA} <code class="rounded bg-muted px-1 py-0.5 text-[11px]">[[{lang === 'zh' ? '双链' : 'backlinks'}]]</code> {copy.search.descB}
         </p>
+        <Instrument kind="search" lang={lang} client:visible />
       </BentoCard>
 
       <!-- local first -->
@@ -219,6 +198,7 @@ const copy = lang === 'zh'
         </div>
         <h3 class="text-lg font-semibold">{copy.local.title}</h3>
         <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{copy.local.desc}</p>
+        <Instrument kind="local" lang={lang} client:visible />
       </BentoCard>
 
       <!-- multi-session -->
@@ -228,6 +208,7 @@ const copy = lang === 'zh'
         </div>
         <h3 class="text-lg font-semibold">{copy.session.title}</h3>
         <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{copy.session.desc}</p>
+        <Instrument kind="session" lang={lang} client:visible />
       </BentoCard>
     </div>
   </section>
