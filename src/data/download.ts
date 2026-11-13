@@ -27,7 +27,7 @@ export interface GitHubRelease {
 }
 
 // Fallback version only used when GitHub API is unreachable or rate-limited
-export const FALLBACK_RELEASE_VERSION = 'v0.1.9';
+export const FALLBACK_RELEASE_VERSION = 'v0.1.11';
 export const GITHUB_REPO = 'chenxi2015/aitower-releases';
 export const GITHUB_API_LATEST = `https://api.github.com/repos/${GITHUB_REPO}/releases/latest`;
 export const RELEASES_PAGE = `https://github.com/${GITHUB_REPO}/releases/latest`;
@@ -164,16 +164,21 @@ function findAsset(assets: GitHubAsset[], pattern: RegExp): GitHubAsset | undefi
 export function parseDownloadItemsFromRelease(release: GitHubRelease, lang: Lang): DownloadItem[] {
   const isZh = lang === 'zh';
   const assets = release.assets || [];
-  const version = release.tag_name.replace(/^v/, '');
+  const releaseBaseUrl = `https://github.com/${GITHUB_REPO}/releases/download/${release.tag_name}`;
 
   // Match assets by filename patterns
   const macArmDmgAsset = findAsset(assets, /(arm64|aarch64).*\.dmg$/i);
-  const macIntelDmgAsset = findAsset(assets, /(x64|intel|x86_64).*\.dmg$/i);
-  const winExeAsset = findAsset(assets, /setup.*\.exe$/i) || findAsset(assets, /\.exe$/i) || findAsset(assets, /\.msi$/i);
+  const macIntelDmgAsset = findAsset(assets, /(amd64|x64|intel|x86_64).*\.dmg$/i);
+  const winExeAsset =
+    findAsset(assets, /installer\.exe$/i) ||
+    findAsset(assets, /setup.*\.exe$/i) ||
+    findAsset(assets, /\.exe$/i) ||
+    findAsset(assets, /\.msi$/i);
+  const linuxTarGzAsset = findAsset(assets, /linux.*\.tar\.gz$/i) || findAsset(assets, /\.tar\.gz$/i);
   const linuxAppImageAsset = findAsset(assets, /\.appimage$/i);
   const linuxDebAsset = findAsset(assets, /\.deb$/i);
 
-  return [
+  const items: DownloadItem[] = [
     // macOS Apple Silicon
     {
       id: 'mac-arm64-dmg',
@@ -183,10 +188,10 @@ export function parseDownloadItemsFromRelease(release: GitHubRelease, lang: Lang
       name: 'macOS (Apple Silicon)',
       tag: '.dmg',
       desc: isZh ? '适用于 M1 / M2 / M3 / M4 芯片' : 'For Apple Silicon M-series chips',
-      filename: macArmDmgAsset?.name || `aitower-${version}-arm64.dmg`,
+      filename: macArmDmgAsset?.name || 'aitower_darwin_arm64.dmg',
       directUrl:
         macArmDmgAsset?.browser_download_url ||
-        `${FALLBACK_BASE_URL}/aitower-${version}-arm64.dmg`,
+        `${releaseBaseUrl}/aitower_darwin_arm64.dmg`,
     },
     // macOS Intel
     {
@@ -197,10 +202,10 @@ export function parseDownloadItemsFromRelease(release: GitHubRelease, lang: Lang
       name: 'macOS (Intel)',
       tag: '.dmg',
       desc: isZh ? '适用于 Intel 芯片的 Mac 电脑' : 'For Intel-based Mac computers',
-      filename: macIntelDmgAsset?.name || `aitower-${version}-x64.dmg`,
+      filename: macIntelDmgAsset?.name || 'aitower_darwin_amd64.dmg',
       directUrl:
         macIntelDmgAsset?.browser_download_url ||
-        `${FALLBACK_BASE_URL}/aitower-${version}-x64.dmg`,
+        `${releaseBaseUrl}/aitower_darwin_amd64.dmg`,
     },
     // Windows x64
     {
@@ -210,38 +215,56 @@ export function parseDownloadItemsFromRelease(release: GitHubRelease, lang: Lang
       name: isZh ? 'Windows (64位安装版)' : 'Windows (64-bit Installer)',
       tag: '.exe',
       desc: isZh ? '适用于 Windows 10 / 11 操作系统' : 'For Windows 10 / 11',
-      filename: winExeAsset?.name || `aitower-Setup-${version}.exe`,
+      filename: winExeAsset?.name || 'aitower_windows_amd64_installer.exe',
       directUrl:
         winExeAsset?.browser_download_url ||
-        `${FALLBACK_BASE_URL}/aitower-Setup-${version}.exe`,
+        `${releaseBaseUrl}/aitower_windows_amd64_installer.exe`,
     },
-    // Linux AppImage
-    {
+  ];
+
+  // Only list Linux assets that actually exist in the release (or default to tar.gz)
+  if (linuxAppImageAsset) {
+    items.push({
       id: 'linux-appimage',
       category: 'desktop',
       platform: 'linux',
       name: isZh ? 'Linux (AppImage 通用版)' : 'Linux (AppImage)',
       tag: '.AppImage',
       desc: isZh ? '适用于 Ubuntu / Debian / Fedora 等绝大多数发行版' : 'Universal binary for most Linux distributions',
-      filename: linuxAppImageAsset?.name || `aitower-${version}.AppImage`,
-      directUrl:
-        linuxAppImageAsset?.browser_download_url ||
-        `${FALLBACK_BASE_URL}/aitower-${version}.AppImage`,
-    },
-    // Linux deb
-    {
+      filename: linuxAppImageAsset.name,
+      directUrl: linuxAppImageAsset.browser_download_url,
+    });
+  }
+
+  if (linuxDebAsset) {
+    items.push({
       id: 'linux-deb',
       category: 'desktop',
       platform: 'linux',
       name: isZh ? 'Linux (Debian / Ubuntu 安装包)' : 'Linux (.deb package)',
       tag: '.deb',
       desc: isZh ? '适用于 Debian、Ubuntu 及派生发行版' : 'For Debian, Ubuntu and derivatives',
-      filename: linuxDebAsset?.name || `aitower_${version}_amd64.deb`,
+      filename: linuxDebAsset.name,
+      directUrl: linuxDebAsset.browser_download_url,
+    });
+  }
+
+  if (linuxTarGzAsset || (!linuxAppImageAsset && !linuxDebAsset)) {
+    items.push({
+      id: 'linux-tar-gz',
+      category: 'desktop',
+      platform: 'linux',
+      name: isZh ? 'Linux (x64 压缩包)' : 'Linux (x64 Archive)',
+      tag: '.tar.gz',
+      desc: isZh ? '适用于 Ubuntu / Debian / Fedora 等 64 位发行版' : 'For 64-bit Ubuntu, Debian, Fedora and other distros',
+      filename: linuxTarGzAsset?.name || 'aitower_linux_amd64.tar.gz',
       directUrl:
-        linuxDebAsset?.browser_download_url ||
-        `${FALLBACK_BASE_URL}/aitower_${version}_amd64.deb`,
-    },
-  ];
+        linuxTarGzAsset?.browser_download_url ||
+        `${releaseBaseUrl}/aitower_linux_amd64.tar.gz`,
+    });
+  }
+
+  return items;
 }
 
 /**
@@ -253,24 +276,20 @@ export function getDefaultDownloadItems(lang: Lang): DownloadItem[] {
       tag_name: FALLBACK_RELEASE_VERSION,
       assets: [
         {
-          name: `aitower-0.1.9-arm64.dmg`,
-          browser_download_url: `${FALLBACK_BASE_URL}/aitower-0.1.9-arm64.dmg`,
+          name: 'aitower_darwin_arm64.dmg',
+          browser_download_url: `${FALLBACK_BASE_URL}/aitower_darwin_arm64.dmg`,
         },
         {
-          name: `aitower-0.1.9-x64.dmg`,
-          browser_download_url: `${FALLBACK_BASE_URL}/aitower-0.1.9-x64.dmg`,
+          name: 'aitower_darwin_amd64.dmg',
+          browser_download_url: `${FALLBACK_BASE_URL}/aitower_darwin_amd64.dmg`,
         },
         {
-          name: `aitower-Setup-0.1.9.exe`,
-          browser_download_url: `${FALLBACK_BASE_URL}/aitower-Setup-0.1.9.exe`,
+          name: 'aitower_windows_amd64_installer.exe',
+          browser_download_url: `${FALLBACK_BASE_URL}/aitower_windows_amd64_installer.exe`,
         },
         {
-          name: `aitower-0.1.9.AppImage`,
-          browser_download_url: `${FALLBACK_BASE_URL}/aitower-0.1.9.AppImage`,
-        },
-        {
-          name: `aitower_0.1.9_amd64.deb`,
-          browser_download_url: `${FALLBACK_BASE_URL}/aitower_0.1.9_amd64.deb`,
+          name: 'aitower_linux_amd64.tar.gz',
+          browser_download_url: `${FALLBACK_BASE_URL}/aitower_linux_amd64.tar.gz`,
         },
       ],
     },

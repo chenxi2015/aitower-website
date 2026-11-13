@@ -158,7 +158,7 @@ export default function DownloadButtons({
       return downloadItems.find((i) => i.id === 'win-setup-exe') || downloadItems[0];
     }
     if (platform === 'linux') {
-      return downloadItems.find((i) => i.id === 'linux-appimage') || downloadItems[0];
+      return downloadItems.find((i) => i.platform === 'linux') || downloadItems[0];
     }
     if (platform === 'mac') {
       const targetId = macArch === 'x64' ? 'mac-x64-dmg' : 'mac-arm64-dmg';
