@@ -523,3 +523,12 @@ a:hover .marker-underline {
   border: 0;
   border-top: 1px solid var(--border);
 }
+.docs-prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: var(--card);
+}

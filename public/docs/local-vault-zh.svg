@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" fill="none">
+  <defs>
+    <pattern id="dots-vault" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="0.9" fill="#d4d4d8" />
+    </pattern>
+    <marker id="arrow-vault" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 1 1 L 9 5 L 1 9 z" fill="#27272a" />
+    </marker>
+  </defs>
+  <rect width="880" height="300" rx="16" fill="#fafaf9" />
+  <rect width="880" height="300" rx="16" fill="url(#dots-vault)" />
+
+  <!-- Local Vault Box -->
+  <rect x="38" y="38" width="320" height="224" rx="14" fill="#ffffff" stroke="#27272a" stroke-width="1.5" />
+  <text x="60" y="68" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#18181b">你的本地 Obsidian Vault</text>
+  <text x="60" y="88" font-family="system-ui, sans-serif" font-size="11" fill="#71717a">标准文件系统 · 无隐藏中间库</text>
+
+  <rect x="60" y="106" width="132" height="42" rx="8" fill="#bfdbfe" fill-opacity="0.6" />
+  <text x="126" y="131" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" font-weight="600" fill="#1e3a8a">*.md 笔记</text>
+
+  <rect x="204" y="106" width="132" height="42" rx="8" fill="#bbf7d0" fill-opacity="0.6" />
+  <text x="270" y="131" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" font-weight="600" fill="#14532d">*.canvas</text>
+
+  <rect x="60" y="160" width="132" height="42" rx="8" fill="#fef08a" fill-opacity="0.75" />
+  <text x="126" y="185" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="#713f12">*.excalidraw</text>
+
+  <rect x="204" y="160" width="132" height="42" rx="8" fill="#e9d5ff" fill-opacity="0.65" />
+  <text x="270" y="185" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" font-weight="600" fill="#581c87">assets/ PNG</text>
+
+  <text x="198" y="238" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#52525b">删除操作直走系统回收站，资产永远归你</text>
+
+  <!-- Bidirectional arrows -->
+  <path d="M 370 132 L 486 132" stroke="#27272a" stroke-width="1.8" marker-end="url(#arrow-vault)" />
+  <path d="M 486 168 L 370 168" stroke="#27272a" stroke-width="1.8" marker-end="url(#arrow-vault)" />
+  <text x="428" y="120" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#27272a">直接读写</text>
+  <text x="428" y="192" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#71717a">Obsidian 同步互通</text>
+
+  <!-- aitower Workbench Box -->
+  <rect x="498" y="38" width="344" height="224" rx="14" fill="#ffffff" stroke="#27272a" stroke-width="1.5" />
+  <text x="520" y="68" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#18181b">aitower 桌面工作台</text>
+  <text x="520" y="88" font-family="system-ui, sans-serif" font-size="11" fill="#71717a">零锁死 · 所写即所得</text>
+
+  <rect x="520" y="108" width="300" height="40" rx="9" fill="#fafaf9" stroke="#e4e4e7" />
+  <text x="670" y="132" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#18181b">穿透 [[双链]] 与 .canvas 的智能检索</text>
+
+  <rect x="520" y="158" width="300" height="40" rx="9" fill="#fafaf9" stroke="#e4e4e7" />
+  <text x="670" y="182" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#18181b">CodeMirror 6 写作 + Excalidraw 画板</text>
+
+  <rect x="520" y="208" width="300" height="36" rx="9" fill="#18181b" />
+  <text x="670" y="230" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#ffffff">随时用 Obsidian 或任何编辑器接管原文件</text>
+</svg>

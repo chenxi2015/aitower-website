@@ -121,3 +121,49 @@ export async function getSwitchLocaleDocHref(targetLang: Lang, currentSlug: stri
   if (exactMatch) return exactMatch.href;
   return targetItems[0]?.href ?? href(targetLang, 'docs');
 }
+
+export interface DocsSearchRecord {
+  title: string;
+  description: string;
+  sectionLabel: string;
+  href: string;
+  headings: string[];
+  body: string;
+}
+
+/** Strip Markdown syntax into compact plain text for client-side search indexing. */
+function stripMarkdown(raw: string): string {
+  return raw
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/[*_~>|]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/** Extract markdown h2/h3 headings for higher-priority keyword matching. */
+function extractHeadings(raw: string): string[] {
+  const matches = raw.matchAll(/^#{2,3}\s+(.+)$/gm);
+  return Array.from(matches, (m) => m[1].trim());
+}
+
+/** Build static JSON search index entries for the specified locale. */
+export async function buildDocsSearchIndex(lang: Lang): Promise<DocsSearchRecord[]> {
+  const items = await getDocsByLang(lang);
+  const labels = SECTION_LABELS[lang];
+
+  return items.map((item) => {
+    const rawBody = item.entry.body ?? '';
+    return {
+      title: item.title,
+      description: item.description,
+      sectionLabel: labels[item.section],
+      href: item.href,
+      headings: extractHeadings(rawBody),
+      body: stripMarkdown(rawBody),
+    };
+  });
+}

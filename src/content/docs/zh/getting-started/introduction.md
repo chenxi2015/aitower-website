@@ -23,6 +23,8 @@ aitower 的定位不是替你甩手生成内容，而是做你思考时的脚手
 
 ## 本地优先，尊重资产
 
+![aitower 本地优先 Obsidian Vault 架构示意图](/docs/local-vault-zh.svg)
+
 - **零中间数据库篡改**：直接读写你的 Markdown 与画板文件，不锁死专有格式。
 - **安全删除**：删除操作走系统回收站，误删可随时找回。
 - **继续阅读**：前往 [下载与安装](/docs/getting-started/install) 或 [5 分钟上手](/docs/getting-started/quick-start)。

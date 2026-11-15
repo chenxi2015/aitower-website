@@ -6,9 +6,10 @@ import Footer from '../components/Footer.astro';
 import DocsSidebar from '../components/docs/DocsSidebar.astro';
 import DocsToc from '../components/docs/DocsToc.astro';
 import DocsPager from '../components/docs/DocsPager.astro';
+import DocsSearch from '../components/docs/DocsSearch';
 import type { DocNavGroup, DocNavItem } from '../data/docs';
-import { t, type Lang } from '../data/i18n';
-import { ChevronDown } from 'lucide-react';
+import { href, t, type Lang } from '../data/i18n';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 interface Props {
   lang: Lang;
@@ -43,21 +44,25 @@ const copy = t[lang].docsPage;
   <Navbar lang={lang} switchLocaleUrl={switchLocaleUrl} />
 
   <div class="mx-auto max-w-7xl px-6 py-10 md:py-14">
-    <!-- Mobile sidebar drawer -->
-    <details class="mb-8 rounded-xl border border-border bg-card p-3 lg:hidden">
-      <summary class="flex cursor-pointer list-none items-center justify-between text-sm font-medium">
-        <span>{copy.menu} · {title}</span>
-        <ChevronDown size={15} className="text-muted-foreground" />
-      </summary>
-      <div class="mt-4 border-t border-border pt-4">
-        <DocsSidebar groups={groups} currentSlug={currentSlug} />
-      </div>
-    </details>
+    <!-- Mobile search & sidebar drawer -->
+    <div class="mb-8 space-y-3 lg:hidden">
+      <DocsSearch client:load lang={lang} />
+      <details class="rounded-xl border border-border bg-card p-3">
+        <summary class="flex cursor-pointer list-none items-center justify-between text-sm font-medium">
+          <span>{copy.menu} · {title}</span>
+          <ChevronDown size={15} className="text-muted-foreground" />
+        </summary>
+        <div class="mt-4 border-t border-border pt-4">
+          <DocsSidebar groups={groups} currentSlug={currentSlug} />
+        </div>
+      </details>
+    </div>
 
     <div class="grid gap-10 lg:grid-cols-[230px_minmax(0,1fr)] xl:grid-cols-[230px_minmax(0,1fr)_200px]">
       <!-- Desktop sidebar -->
       <aside class="hidden lg:block">
-        <div class="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pr-2">
+        <div class="sticky top-24 max-h-[calc(100vh-7rem)] space-y-5 overflow-y-auto pr-2">
+          <DocsSearch client:load lang={lang} enableShortcut={true} />
           <DocsSidebar groups={groups} currentSlug={currentSlug} />
         </div>
       </aside>
@@ -66,10 +71,12 @@ const copy = t[lang].docsPage;
       <main class="min-w-0">
         <div class="mx-auto max-w-3xl">
           <header class="mb-8 border-b border-border pb-6">
-            <p class="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
-              {sectionLabel}
-            </p>
-            <h1 class="mt-2 text-3xl font-bold tracking-tight md:text-4xl">{title}</h1>
+            <nav aria-label="Breadcrumb" class="mb-3 flex items-center gap-1.5 text-xs text-muted-foreground">
+              <a href={href(lang, 'docs')} class="transition-colors hover:text-foreground">{copy.title}</a>
+              <ChevronRight size={12} className="shrink-0 opacity-60" />
+              <span class="font-medium text-foreground/80">{sectionLabel}</span>
+            </nav>
+            <h1 class="text-3xl font-bold tracking-tight md:text-4xl">{title}</h1>
             <p class="mt-3 text-base leading-relaxed text-muted-foreground">{description}</p>
           </header>
 
@@ -87,4 +94,33 @@ const copy = t[lang].docsPage;
   </div>
 
   <Footer lang={lang} />
+
+  <script is:inline define:vars={{ copyLabel: copy.copy, copiedLabel: copy.copied }}>
+    // Attach copy buttons to code blocks in documentation articles
+    document.querySelectorAll('.docs-prose pre').forEach((pre) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'relative group';
+      pre.parentNode?.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = copyLabel;
+      btn.className =
+        'absolute right-2.5 top-2.5 rounded-md border border-border bg-card/90 px-2 py-0.5 text-[11px] font-medium text-muted-foreground opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100 focus:opacity-100';
+      btn.addEventListener('click', async () => {
+        const code = pre.querySelector('code')?.textContent ?? pre.textContent ?? '';
+        try {
+          await navigator.clipboard.writeText(code);
+          btn.textContent = copiedLabel;
+          window.setTimeout(() => {
+            btn.textContent = copyLabel;
+          }, 1500);
+        } catch {
+          // Ignore clipboard permission errors
+        }
+      });
+      wrapper.appendChild(btn);
+    });
+  </script>
 </BaseLayout>

@@ -16,6 +16,8 @@ Instead of acting as an assembly-line content generator, aitower serves as a thi
 
 ## Two Core Modules
 
+![aitower local-first Obsidian Vault architecture](/docs/local-vault-en.svg)
+
 1. **Notes Workspace**: Wired directly to your Obsidian vault with CodeMirror 6 dual-mode editing (Live Preview / Source / Read), `[[Wikilink]]` completion, and native `.canvas` / `.excalidraw` support.
 2. **Studio Board**: An infinite hand-drawn canvas with personal and official asset drawers, frames, templates, image tools, and one-click export & insertion at your cursor.
 

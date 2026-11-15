@@ -10,11 +10,12 @@ const { lang, switchLocaleUrl } = Astro.props;
 const n = t[lang].nav;
 const root = href(lang);
 
+const currentPath = Astro.url.pathname;
 const links = [
-  { href: `${root}#features`, label: n.features },
-  { href: `${root}#workflow`, label: n.workflow },
-  { href: href(lang, 'docs'), label: n.docs },
-  { href: href(lang, 'changelog'), label: n.changelog },
+  { href: `${root}#features`, label: n.features, active: false },
+  { href: `${root}#workflow`, label: n.workflow, active: false },
+  { href: href(lang, 'docs'), label: n.docs, active: currentPath.startsWith(href(lang, 'docs')) },
+  { href: href(lang, 'changelog'), label: n.changelog, active: currentPath.startsWith(href(lang, 'changelog')) },
 ];
 const otherLocaleUrl = switchLocaleUrl ?? (lang === 'zh' ? '/en/' : '/');
 ---
@@ -30,7 +31,13 @@ const otherLocaleUrl = switchLocaleUrl ?? (lang === 'zh' ? '/en/' : '/');
       {links.map((l) => (
         <a
           href={l.href}
-          class="rounded-full px-3.5 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          aria-current={l.active ? 'page' : undefined}
+          class:list={[
+            'rounded-full px-3.5 py-1.5 text-sm transition-colors',
+            l.active
+              ? 'bg-muted font-medium text-foreground'
+              : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+          ]}
         >
           {l.label}
         </a>

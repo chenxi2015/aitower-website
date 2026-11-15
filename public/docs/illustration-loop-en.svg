@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" fill="none">
+  <defs>
+    <pattern id="dots-loop-en" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="0.9" fill="#d4d4d8" />
+    </pattern>
+    <marker id="arrow-loop-en" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 1 1 L 9 5 L 1 9 z" fill="#27272a" />
+    </marker>
+  </defs>
+  <rect width="880" height="300" rx="16" fill="#fafaf9" />
+  <rect width="880" height="300" rx="16" fill="url(#dots-loop-en)" />
+
+  <rect x="34" y="42" width="236" height="216" rx="14" fill="#ffffff" stroke="#27272a" stroke-width="1.5" />
+  <rect x="52" y="60" width="42" height="24" rx="12" fill="#bfdbfe" />
+  <text x="73" y="76" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#1e3a8a">01</text>
+  <text x="106" y="77" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#18181b">Summon</text>
+  <text x="52" y="112" font-family="system-ui, sans-serif" font-size="12" fill="#52525b">Click "Illustrate this section"</text>
+  <text x="52" y="132" font-family="system-ui, sans-serif" font-size="12" fill="#52525b">or ask the side-panel Agent</text>
+  <rect x="52" y="156" width="200" height="78" rx="10" fill="#eff6ff" stroke="#bfdbfe" />
+  <text x="152" y="184" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#1e40af">Reads active note &amp; vault</text>
+  <text x="152" y="206" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#3b82f6">read_note → draft_studio_board</text>
+
+  <path d="M 278 150 L 312 150" stroke="#27272a" stroke-width="1.8" marker-end="url(#arrow-loop-en)" />
+
+  <rect x="322" y="42" width="236" height="216" rx="14" fill="#ffffff" stroke="#27272a" stroke-width="1.5" />
+  <rect x="340" y="60" width="42" height="24" rx="12" fill="#bbf7d0" />
+  <text x="361" y="76" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#14532d">02</text>
+  <text x="394" y="77" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#18181b">Design on Board</text>
+  <text x="340" y="112" font-family="system-ui, sans-serif" font-size="12" fill="#52525b">AI drafts nodes &amp; arrows;</text>
+  <text x="340" y="132" font-family="system-ui, sans-serif" font-size="12" fill="#52525b">refine copy &amp; colors yourself</text>
+  <rect x="340" y="156" width="94" height="36" rx="8" fill="#fef08a" />
+  <text x="387" y="178" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#713f12">Hand-drawn</text>
+  <rect x="446" y="156" width="94" height="36" rx="8" fill="#e9d5ff" />
+  <text x="493" y="178" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#581c87">Sticky notes</text>
+  <rect x="340" y="202" width="200" height="32" rx="8" fill="#f0fdf4" stroke="#86efac" />
+  <text x="440" y="222" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#166534">100% editable vector elements</text>
+
+  <path d="M 566 150 L 600 150" stroke="#27272a" stroke-width="1.8" marker-end="url(#arrow-loop-en)" />
+
+  <rect x="610" y="42" width="236" height="216" rx="14" fill="#ffffff" stroke="#27272a" stroke-width="1.5" />
+  <rect x="628" y="60" width="42" height="24" rx="12" fill="#fef08a" />
+  <text x="649" y="76" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#713f12">03</text>
+  <text x="682" y="77" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#18181b">Insert at Cursor</text>
+  <text x="628" y="112" font-family="system-ui, sans-serif" font-size="12" fill="#52525b">Export crisp PNG/SVG into</text>
+  <text x="628" y="132" font-family="system-ui, sans-serif" font-size="12" fill="#52525b">vault assets &amp; stamp link</text>
+  <rect x="628" y="156" width="200" height="78" rx="10" fill="#18181b" />
+  <text x="728" y="186" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" font-weight="600" fill="#fef08a">![[architecture.png]]</text>
+  <text x="728" y="210" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#d4d4d8">Stamps at cursor · Zero switching</text>
+</svg>

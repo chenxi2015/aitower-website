@@ -11,6 +11,8 @@ Open aitower and select your local Obsidian vault directory. Your existing folde
 
 ## 2. Explore the Three-Pane Workbench
 
+![aitower three-pane workbench layout](/docs/workbench-layout-en.svg)
+
 - **Left Sidebar / Drawer**: Browse your vault tree in Notes mode, or switch between Boards, Frames, Templates, Asset Library, Image Toolbox, and Agent Skills in Studio mode.
 - **Center Canvas**: Switch seamlessly between Notes and Studio in one window.
 - **Right Agent Panel**: Context-aware AI assistant with concurrent sessions that never cross-talk.
