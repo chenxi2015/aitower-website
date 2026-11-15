@@ -1,0 +1,90 @@
+---
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import DocsSidebar from '../components/docs/DocsSidebar.astro';
+import DocsToc from '../components/docs/DocsToc.astro';
+import DocsPager from '../components/docs/DocsPager.astro';
+import type { DocNavGroup, DocNavItem } from '../data/docs';
+import { t, type Lang } from '../data/i18n';
+import { ChevronDown } from 'lucide-react';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  sectionLabel: string;
+  currentSlug: string;
+  groups: DocNavGroup[];
+  headings: MarkdownHeading[];
+  prev: DocNavItem | null;
+  next: DocNavItem | null;
+  switchLocaleUrl: string;
+}
+
+const {
+  lang,
+  title,
+  description,
+  sectionLabel,
+  currentSlug,
+  groups,
+  headings,
+  prev,
+  next,
+  switchLocaleUrl,
+} = Astro.props;
+
+const copy = t[lang].docsPage;
+---
+
+<BaseLayout lang={lang} title={`${title} · ${copy.title} · aitower`} description={description}>
+  <Navbar lang={lang} switchLocaleUrl={switchLocaleUrl} />
+
+  <div class="mx-auto max-w-7xl px-6 py-10 md:py-14">
+    <!-- Mobile sidebar drawer -->
+    <details class="mb-8 rounded-xl border border-border bg-card p-3 lg:hidden">
+      <summary class="flex cursor-pointer list-none items-center justify-between text-sm font-medium">
+        <span>{copy.menu} · {title}</span>
+        <ChevronDown size={15} className="text-muted-foreground" />
+      </summary>
+      <div class="mt-4 border-t border-border pt-4">
+        <DocsSidebar groups={groups} currentSlug={currentSlug} />
+      </div>
+    </details>
+
+    <div class="grid gap-10 lg:grid-cols-[230px_minmax(0,1fr)] xl:grid-cols-[230px_minmax(0,1fr)_200px]">
+      <!-- Desktop sidebar -->
+      <aside class="hidden lg:block">
+        <div class="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pr-2">
+          <DocsSidebar groups={groups} currentSlug={currentSlug} />
+        </div>
+      </aside>
+
+      <!-- Main document -->
+      <main class="min-w-0">
+        <div class="mx-auto max-w-3xl">
+          <header class="mb-8 border-b border-border pb-6">
+            <p class="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+              {sectionLabel}
+            </p>
+            <h1 class="mt-2 text-3xl font-bold tracking-tight md:text-4xl">{title}</h1>
+            <p class="mt-3 text-base leading-relaxed text-muted-foreground">{description}</p>
+          </header>
+
+          <article class="docs-prose">
+            <slot />
+          </article>
+
+          <DocsPager lang={lang} prev={prev} next={next} />
+        </div>
+      </main>
+
+      <!-- Table of contents -->
+      <DocsToc lang={lang} headings={headings} />
+    </div>
+  </div>
+
+  <Footer lang={lang} />
+</BaseLayout>

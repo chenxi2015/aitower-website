@@ -1,0 +1,20 @@
+---
+import DocsEntryPage from '../../../components/docs/DocsEntryPage.astro';
+import { getDocsByLang, type DocNavItem } from '../../../data/docs';
+
+export async function getStaticPaths() {
+  const items = await getDocsByLang('en');
+  return items.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+interface Props {
+  item: DocNavItem;
+}
+
+const { item } = Astro.props;
+---
+
+<DocsEntryPage lang="en" item={item} />

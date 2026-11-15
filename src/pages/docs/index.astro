@@ -1,0 +1,10 @@
+---
+import DocsRedirect from '../../components/docs/DocsRedirect.astro';
+import { getDocsByLang } from '../../data/docs';
+import { href } from '../../data/i18n';
+
+const items = await getDocsByLang('zh');
+const target = items[0]?.href ?? href('zh');
+---
+
+<DocsRedirect target={target} />

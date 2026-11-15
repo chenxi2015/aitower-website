@@ -2,17 +2,21 @@
 import ThemeToggle from './ThemeToggle';
 import { t, href, type Lang } from '../data/i18n';
 
-interface Props { lang: Lang }
-const { lang } = Astro.props;
+interface Props {
+  lang: Lang;
+  switchLocaleUrl?: string;
+}
+const { lang, switchLocaleUrl } = Astro.props;
 const n = t[lang].nav;
 const root = href(lang);
 
 const links = [
   { href: `${root}#features`, label: n.features },
   { href: `${root}#workflow`, label: n.workflow },
+  { href: href(lang, 'docs'), label: n.docs },
   { href: href(lang, 'changelog'), label: n.changelog },
 ];
-const otherLocaleUrl = lang === 'zh' ? '/en/' : '/';
+const otherLocaleUrl = switchLocaleUrl ?? (lang === 'zh' ? '/en/' : '/');
 ---
 
 <header class="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">

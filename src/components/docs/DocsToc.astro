@@ -1,0 +1,38 @@
+---
+import type { MarkdownHeading } from 'astro';
+import { t, type Lang } from '../../data/i18n';
+
+interface Props {
+  lang: Lang;
+  headings: MarkdownHeading[];
+}
+
+const { lang, headings } = Astro.props;
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const title = t[lang].docsPage.onThisPage;
+---
+
+{tocHeadings.length > 0 && (
+  <aside class="hidden xl:block">
+    <div class="sticky top-24">
+      <p class="mb-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+        {title}
+      </p>
+      <ul class="space-y-1.5 border-l border-border text-xs">
+        {tocHeadings.map((h) => (
+          <li>
+            <a
+              href={`#${h.slug}`}
+              class:list={[
+                'block border-l border-transparent py-0.5 text-muted-foreground transition-colors hover:border-foreground hover:text-foreground',
+                h.depth === 2 ? 'pl-3' : 'pl-6',
+              ]}
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </aside>
+)}

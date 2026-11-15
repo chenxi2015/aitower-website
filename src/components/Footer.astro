@@ -1,5 +1,5 @@
 ---
-import { t, href, GITHUB, RELEASES_REPO, type Lang } from '../data/i18n';
+import { t, href, RELEASES_REPO, type Lang } from '../data/i18n';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -14,8 +14,8 @@ const year = new Date().getFullYear();
       <span>© {year} aitower · {f.tagline}</span>
     </div>
     <div class="flex items-center gap-5">
-      <a href={GITHUB} target="_blank" rel="noreferrer" class="transition-colors hover:text-foreground">GitHub</a>
       <a href={RELEASES_REPO} target="_blank" rel="noreferrer" class="transition-colors hover:text-foreground">{f.releases}</a>
+      <a href={href(lang, 'docs')} class="transition-colors hover:text-foreground">{t[lang].nav.docs}</a>
       <a href={href(lang, 'changelog')} class="transition-colors hover:text-foreground">{f.changelog}</a>
     </div>
   </div>

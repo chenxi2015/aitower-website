@@ -1,6 +1,5 @@
 export type Lang = 'zh' | 'en';
 
-export const GITHUB = 'https://github.com/chenxi2015/aitower';
 export const RELEASES_REPO = 'https://github.com/chenxi2015/aitower-releases';
 export const RELEASES = `${RELEASES_REPO}/releases/latest`;
 
@@ -16,8 +15,8 @@ export const t = {
     nav: {
       features: '功能',
       workflow: '工作流',
+      docs: '文档',
       changelog: '更新日志',
-      github: 'GitHub',
       download: '下载',
     },
     hero: {
@@ -75,6 +74,13 @@ export const t = {
       noNotes: '此版本暂无更新说明。',
       historyA: '完整历史版本见',
     },
+    docsPage: {
+      title: '使用文档',
+      menu: '文档目录',
+      onThisPage: '本页目录',
+      prev: '上一篇',
+      next: '下一篇',
+    },
   },
   en: {
     meta: {
@@ -84,8 +90,8 @@ export const t = {
     nav: {
       features: 'Features',
       workflow: 'Workflow',
+      docs: 'Docs',
       changelog: 'Changelog',
-      github: 'GitHub',
       download: 'Download',
     },
     hero: {
@@ -142,6 +148,13 @@ export const t = {
       empty: 'There are no published GitHub releases yet.',
       noNotes: 'No release notes for this version.',
       historyA: 'Full release history on',
+    },
+    docsPage: {
+      title: 'Documentation',
+      menu: 'Docs menu',
+      onThisPage: 'On this page',
+      prev: 'Previous',
+      next: 'Next',
     },
   },
 } as const;
