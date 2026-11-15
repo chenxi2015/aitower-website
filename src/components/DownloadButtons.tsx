@@ -61,6 +61,7 @@ export default function DownloadButtons({
   const [isOpen, setIsOpen] = useState(false);
   const [placement, setPlacement] = useState<'bottom' | 'top'>('bottom');
   const [platform, setPlatform] = useState<Platform>('mac');
+  const [platformReady, setPlatformReady] = useState(false);
   const [macArch, setMacArch] = useState<MacArch>('arm64');
   const [copiedNotification, setCopiedNotification] = useState(false);
   const [downloadItems, setDownloadItems] = useState<DownloadItem[]>(() => getDefaultDownloadItems(lang));
@@ -72,6 +73,7 @@ export default function DownloadButtons({
   useEffect(() => {
     const detected = detectPlatform();
     setPlatform(detected);
+    setPlatformReady(true);
 
     if (detected === 'mac') {
       const initialArch = detectMacArch();
@@ -193,6 +195,12 @@ export default function DownloadButtons({
   };
 
   const isCompact = variant === 'compact';
+  const systemRequirement =
+    platform === 'mac'
+      ? texts.systemRequirementMac
+      : platform === 'windows'
+        ? texts.systemRequirementWindows
+        : null;
 
   return (
     <div
@@ -241,6 +249,12 @@ export default function DownloadButtons({
           />
         </button>
       </div>
+
+      {platformReady && systemRequirement && (
+        <p className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap text-xs text-muted-foreground">
+          {systemRequirement}
+        </p>
+      )}
 
       {/* Adaptive dropdown/dropup popover */}
       {isOpen && (

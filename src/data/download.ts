@@ -24,12 +24,19 @@ export interface GitHubAsset {
 export interface GitHubRelease {
   tag_name: string;
   assets: GitHubAsset[];
+  name?: string | null;
+  body?: string | null;
+  published_at?: string | null;
+  html_url?: string;
+  draft?: boolean;
+  prerelease?: boolean;
 }
 
 // Fallback version only used when GitHub API is unreachable or rate-limited
 export const FALLBACK_RELEASE_VERSION = 'v0.1.11';
 export const GITHUB_REPO = 'chenxi2015/aitower-releases';
 export const GITHUB_API_LATEST = `https://api.github.com/repos/${GITHUB_REPO}/releases/latest`;
+export const GITHUB_API_RELEASES = `https://api.github.com/repos/${GITHUB_REPO}/releases?per_page=30`;
 export const RELEASES_PAGE = `https://github.com/${GITHUB_REPO}/releases/latest`;
 const FALLBACK_BASE_URL = `https://github.com/${GITHUB_REPO}/releases/download/${FALLBACK_RELEASE_VERSION}`;
 
@@ -187,7 +194,7 @@ export function parseDownloadItemsFromRelease(release: GitHubRelease, lang: Lang
       arch: 'arm64',
       name: 'macOS (Apple Silicon)',
       tag: '.dmg',
-      desc: isZh ? '适用于 M1 / M2 / M3 / M4 芯片' : 'For Apple Silicon M-series chips',
+      desc: isZh ? 'macOS 14+ · 适用于 M1 / M2 / M3 / M4 芯片' : 'macOS 14+ · For Apple Silicon M-series chips',
       filename: macArmDmgAsset?.name || 'aitower_darwin_arm64.dmg',
       directUrl:
         macArmDmgAsset?.browser_download_url ||
@@ -201,7 +208,7 @@ export function parseDownloadItemsFromRelease(release: GitHubRelease, lang: Lang
       arch: 'x64',
       name: 'macOS (Intel)',
       tag: '.dmg',
-      desc: isZh ? '适用于 Intel 芯片的 Mac 电脑' : 'For Intel-based Mac computers',
+      desc: isZh ? 'macOS 14+ · 适用于 Intel 芯片的 Mac 电脑' : 'macOS 14+ · For Intel-based Mac computers',
       filename: macIntelDmgAsset?.name || 'aitower_darwin_amd64.dmg',
       directUrl:
         macIntelDmgAsset?.browser_download_url ||
@@ -369,6 +376,8 @@ export const downloadI18n = {
     forMac: '下载 macOS 版',
     forWindows: '下载 Windows 版',
     forLinux: '下载 Linux 版',
+    systemRequirementMac: 'macOS 14+',
+    systemRequirementWindows: 'Windows 10 / 11（64 位）',
     macHint: 'Apple Silicon · DMG',
     winHint: 'Win 10/11 · EXE',
     linuxHint: '通用版本',
@@ -401,6 +410,8 @@ export const downloadI18n = {
     forMac: 'Download for macOS',
     forWindows: 'Download for Windows',
     forLinux: 'Download for Linux',
+    systemRequirementMac: 'macOS 14+',
+    systemRequirementWindows: 'Windows 10 / 11 (64-bit)',
     macHint: 'Apple Silicon · DMG',
     winHint: 'Win 10/11 · EXE',
     linuxHint: 'Universal',
