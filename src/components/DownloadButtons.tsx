@@ -4,11 +4,11 @@ import {
   Check,
   ChevronDown,
   Download,
+  Loader2,
   Terminal,
 } from 'lucide-react';
 import {
   detectPlatform,
-  detectMacArch,
   detectMacArchAsync,
   downloadI18n,
   fetchLatestRelease,
@@ -62,7 +62,8 @@ export default function DownloadButtons({
   const [placement, setPlacement] = useState<'bottom' | 'top'>('bottom');
   const [platform, setPlatform] = useState<Platform>('mac');
   const [platformReady, setPlatformReady] = useState(false);
-  const [macArch, setMacArch] = useState<MacArch>('arm64');
+  const [macArch, setMacArch] = useState<MacArch | null>(null);
+  const [macArchReady, setMacArchReady] = useState(false);
   const [copiedNotification, setCopiedNotification] = useState(false);
   const [downloadItems, setDownloadItems] = useState<DownloadItem[]>(() => getDefaultDownloadItems(lang));
   const containerRef = useRef<HTMLDivElement>(null);
@@ -75,17 +76,17 @@ export default function DownloadButtons({
     setPlatform(detected);
     setPlatformReady(true);
 
-    if (detected === 'mac') {
-      const initialArch = detectMacArch();
-      setMacArch(initialArch);
-      detectMacArchAsync().then((arch) => {
-        if (arch !== initialArch) setMacArch(arch);
-      });
-    }
-
     setDownloadItems(getDefaultDownloadItems(lang));
 
     let isSubscribed = true;
+    if (detected === 'mac') {
+      detectMacArchAsync().then((arch) => {
+        if (!isSubscribed) return;
+        if (arch) setMacArch(arch);
+        setMacArchReady(true);
+      });
+    }
+
     fetchLatestRelease().then((release) => {
       if (isSubscribed && release) {
         setDownloadItems(parseDownloadItemsFromRelease(release, lang));
@@ -163,6 +164,7 @@ export default function DownloadButtons({
       return downloadItems.find((i) => i.platform === 'linux') || downloadItems[0];
     }
     if (platform === 'mac') {
+      if (!macArch) return undefined;
       const targetId = macArch === 'x64' ? 'mac-x64-dmg' : 'mac-arm64-dmg';
       return downloadItems.find((i) => i.id === targetId) || downloadItems[0];
     }
@@ -177,9 +179,13 @@ export default function DownloadButtons({
     setTimeout(() => setCopiedNotification(false), 2400);
   };
 
+  const isDetectingPlatform = !platformReady || (platform === 'mac' && !macArchReady);
+
   // Compute button label for recommended package
   const getPrimaryLabel = () => {
+    if (isDetectingPlatform) return texts.detectingSystem;
     if (platform === 'mac') {
+      if (!macArch) return texts.downloadForMac;
       return macArch === 'x64' ? texts.downloadForMacIntel : texts.downloadForMacArm;
     }
     if (platform === 'windows') return texts.downloadForWindows;
@@ -212,16 +218,19 @@ export default function DownloadButtons({
         {/* Main Action Button: Click to directly download recommended package */}
         <button
           type="button"
-          onClick={() => handleDownload(primaryItem)}
-          title={`${texts.directDownloadBadge}: ${primaryItem.filename}`}
+          onClick={() => (primaryItem ? handleDownload(primaryItem) : toggleDropdown())}
+          title={primaryItem ? `${texts.directDownloadBadge}: ${primaryItem.filename}` : getPrimaryLabel()}
+          aria-busy={isDetectingPlatform}
           className={`group flex cursor-pointer items-center gap-2 rounded-full text-primary-foreground transition hover:bg-white/10 active:scale-[0.99] ${
             isCompact ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-xs sm:px-5 sm:py-2.5 sm:text-sm font-medium'
           }`}
         >
           {copiedNotification ? (
             <Check size={isCompact ? 14 : 16} className="text-emerald-400" />
+          ) : isDetectingPlatform ? (
+            <Loader2 size={isCompact ? 14 : 16} className="shrink-0 animate-spin" aria-hidden="true" />
           ) : (
-            <PlatformIcon platform={primaryItem.platform} size={isCompact ? 14 : 16} />
+            <PlatformIcon platform={primaryItem?.platform || platform} size={isCompact ? 14 : 16} />
           )}
 
           <span className="font-medium tracking-tight">
@@ -265,7 +274,7 @@ export default function DownloadButtons({
         >
           <div className="space-y-1">
             {downloadItems.map((item) => {
-              const isRecommended = item.id === primaryItem.id;
+              const isRecommended = item.id === primaryItem?.id;
 
               return (
                 <button

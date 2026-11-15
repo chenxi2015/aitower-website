@@ -70,8 +70,8 @@ export function detectPlatform(): Platform {
  * Detect macOS processor architecture (Apple Silicon vs Intel)
  * Uses WebGL unmasked GPU renderer info for fast synchronous detection
  */
-export function detectMacArch(): MacArch {
-  if (typeof window === 'undefined') return 'arm64';
+export function detectMacArch(): MacArch | null {
+  if (typeof window === 'undefined') return null;
 
   try {
     const canvas = document.createElement('canvas');
@@ -91,17 +91,18 @@ export function detectMacArch(): MacArch {
       }
     }
   } catch {
-    // Ignore and fallback to arm64
+    // Let Client Hints try when WebGL is unavailable
   }
 
-  return 'arm64';
+  return null;
 }
 
 /**
- * Asynchronously query Client Hints architecture in Chromium browsers
+ * Use Client Hints only when WebGL cannot identify the Mac architecture
  */
-export async function detectMacArchAsync(): Promise<MacArch> {
+export async function detectMacArchAsync(): Promise<MacArch | null> {
   const syncArch = detectMacArch();
+  if (syncArch) return syncArch;
   if (typeof navigator === 'undefined') return syncArch;
 
   try {
@@ -120,7 +121,7 @@ export async function detectMacArchAsync(): Promise<MacArch> {
     // Keep sync result on failure
   }
 
-  return syncArch;
+  return null;
 }
 
 /**
@@ -376,6 +377,7 @@ export const downloadI18n = {
     forMac: '下载 macOS 版',
     forWindows: '下载 Windows 版',
     forLinux: '下载 Linux 版',
+    detectingSystem: '正在识别系统…',
     systemRequirementMac: 'macOS 14+',
     systemRequirementWindows: 'Windows 10 / 11（64 位）',
     macHint: 'Apple Silicon · DMG',
@@ -410,6 +412,7 @@ export const downloadI18n = {
     forMac: 'Download for macOS',
     forWindows: 'Download for Windows',
     forLinux: 'Download for Linux',
+    detectingSystem: 'Detecting system…',
     systemRequirementMac: 'macOS 14+',
     systemRequirementWindows: 'Windows 10 / 11 (64-bit)',
     macHint: 'Apple Silicon · DMG',
